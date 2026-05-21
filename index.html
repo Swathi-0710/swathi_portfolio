@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Swathi.D — Frontend & Mobile Developer</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:        #080D1A;
+  --bg2:       #0C1225;
+  --card:      #101828;
+  --card2:     #131F33;
+  --border:    rgba(255,255,255,0.07);
+  --border2:   rgba(255,255,255,0.12);
+  --text:      #F0F4FF;
+  --muted:     #5A6A8A;
+  --muted2:    #8A9BBF;
+  --blue:      #4F8EF7;
+  --blue-dim:  rgba(79,142,247,0.1);
+  --blue-glow: rgba(79,142,247,0.25);
+  --sky:       #38BDF8;
+  --electric:  #60A5FA;
+  --white:     #FFFFFF;
+  --ff:        'Outfit', sans-serif;
+  --ffm:       'DM Mono', monospace;
+  --r:         14px;
+  --sh:        0 2px 24px rgba(0,0,0,0.4), 0 1px 4px rgba(0,0,0,0.3);
+  --sh-lg:     0 24px 64px rgba(0,0,0,0.6), 0 4px 16px rgba(0,0,0,0.4);
+}
+
+html { scroll-behavior: smooth; }
+body { font-family: var(--ff); background: var(--bg); color: var(--text); overflow-x: hidden; line-height: 1.6; cursor: none; }
+
+/* CURSOR */
+.cdot  { position:fixed;width:7px;height:7px;background:var(--blue);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%); }
+.cring { position:fixed;width:34px;height:34px;border:1.5px solid rgba(79,142,247,0.6);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .3s,height .3s,border-color .3s; }
+body:has(a:hover) .cring,body:has(button:hover) .cring { width:54px;height:54px;border-color:var(--blue); }
+
+/* GRID BG */
+body::before {
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(rgba(79,142,247,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(79,142,247,0.03) 1px,transparent 1px);
+  background-size:70px 70px;
+}
+
+/* NAV */
+nav {
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  padding:1.2rem 3rem;display:flex;justify-content:space-between;align-items:center;
+  background:rgba(8,13,26,0.85);backdrop-filter:blur(24px);
+  border-bottom:1px solid var(--border);
+}
+.nav-logo { font-family:var(--ff);font-weight:800;font-size:1.25rem;color:var(--white);letter-spacing:-0.04em; }
+.nav-logo em { color:var(--blue);font-style:normal; }
+.nav-links { display:flex;gap:2.5rem;list-style:none; }
+.nav-links a { color:var(--muted2);text-decoration:none;font-size:0.82rem;font-weight:500;letter-spacing:0.04em;transition:color .2s; }
+.nav-links a:hover { color:var(--white); }
+.nav-pill {
+  display:flex;align-items:center;gap:7px;padding:6px 16px;border-radius:100px;
+  background:rgba(79,142,247,0.1);border:1px solid rgba(79,142,247,0.25);
+  font-size:0.72rem;font-weight:600;color:var(--electric);letter-spacing:0.04em;
+}
+.npulse { width:6px;height:6px;border-radius:50%;background:var(--electric);animation:pulse 2s ease-in-out infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+/* WRAPPER */
+.wrapper { position:relative;z-index:1;max-width:1120px;margin:0 auto;padding:0 2.5rem; }
+
+/* HERO */
+.hero { min-height:100vh;display:flex;align-items:center;padding:9rem 0 5rem;position:relative;overflow:hidden; }
+.hero-glow {
+  position:absolute;width:800px;height:800px;border-radius:50%;
+  background:radial-gradient(circle,rgba(79,142,247,0.08) 0%,rgba(56,189,248,0.04) 40%,transparent 70%);
+  right:-250px;top:50%;transform:translateY(-50%);pointer-events:none;
+  animation:glowDrift 12s ease-in-out infinite;
+}
+@keyframes glowDrift { 0%,100%{transform:translateY(-50%) scale(1)} 50%{transform:translateY(-52%) scale(1.05)} }
+
+.hero-inner { display:grid;grid-template-columns:1fr 380px;gap:5rem;align-items:center; }
+
+.hero-eyebrow {
+  display:inline-flex;align-items:center;gap:10px;
+  font-size:0.72rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--electric);margin-bottom:1.8rem;
+  animation:fadeUp .6s ease both;
+}
+.hero-eyebrow::before { content:'';width:24px;height:1.5px;background:var(--blue);display:block; }
+
+.hero-name {
+  font-family:var(--ff);font-weight:800;
+  font-size:clamp(3.5rem,6.5vw,6.5rem);
+  line-height:0.92;letter-spacing:-0.05em;color:var(--white);
+  animation:fadeUp .6s ease .08s both;
+}
+.hero-name .ghost { -webkit-text-stroke:1.5px rgba(255,255,255,0.18);color:transparent; }
+.hero-name .bl { color:var(--blue); }
+
+.hero-desc {
+  margin-top:1.8rem;font-size:1rem;color:var(--muted2);line-height:1.85;max-width:450px;
+  animation:fadeUp .6s ease .16s both;
+}
+
+.hero-tags { display:flex;flex-wrap:wrap;gap:8px;margin-top:1.8rem;animation:fadeUp .6s ease .22s both; }
+.htag {
+  font-size:0.75rem;font-weight:600;padding:5px 14px;border-radius:100px;
+  background:rgba(255,255,255,0.04);border:1px solid var(--border2);color:var(--muted2);
+  transition:all .2s;
+}
+.htag.hi { background:var(--blue-dim);border-color:rgba(79,142,247,0.3);color:var(--electric); }
+
+.hero-ctas { display:flex;gap:12px;margin-top:2.5rem;animation:fadeUp .6s ease .28s both; }
+.btn-blue {
+  padding:13px 30px;border-radius:10px;background:var(--blue);color:white;
+  font-weight:700;font-size:0.88rem;text-decoration:none;border:none;cursor:none;
+  transition:transform .2s,box-shadow .2s;
+  box-shadow:0 4px 24px rgba(79,142,247,0.4);
+}
+.btn-blue:hover { transform:translateY(-2px);box-shadow:0 8px 36px rgba(79,142,247,0.55); }
+.btn-ghost {
+  padding:13px 30px;border-radius:10px;border:1px solid var(--border2);color:var(--text);
+  background:transparent;font-weight:600;font-size:0.88rem;text-decoration:none;cursor:none;
+  transition:border-color .2s,transform .2s;
+}
+.btn-ghost:hover { border-color:var(--blue);transform:translateY(-2px); }
+
+/* PROFILE CARD */
+.profile-card {
+  background:var(--card);border:1px solid var(--border2);border-radius:24px;padding:2rem;
+  box-shadow:var(--sh-lg),0 0 0 1px rgba(79,142,247,0.08);
+  animation:fadeUp .6s ease .2s both;position:relative;overflow:hidden;
+}
+.profile-card::before {
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--blue),var(--sky));
+}
+.p-avatar {
+  width:68px;height:68px;border-radius:18px;
+  background:linear-gradient(135deg,var(--blue),var(--sky));
+  display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:1.7rem;color:white;margin-bottom:.8rem;
+  box-shadow:0 8px 24px rgba(79,142,247,0.35);
+}
+.p-name { font-weight:800;font-size:1.2rem;letter-spacing:-.03em;color:var(--white); }
+.p-role { font-size:0.78rem;color:var(--muted2);margin-top:3px;margin-bottom:1.4rem; }
+.p-stats { display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1.4rem; }
+.pst { background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:.9rem; }
+.pst-n { font-weight:800;font-size:1.5rem;color:var(--white);letter-spacing:-.04em; }
+.pst-n em { color:var(--blue);font-style:normal; }
+.pst-l { font-size:0.68rem;color:var(--muted);margin-top:2px;font-weight:500; }
+.p-chips { display:flex;flex-wrap:wrap;gap:7px; }
+.pchip {
+  font-size:0.7rem;font-weight:600;padding:4px 11px;border-radius:8px;
+  background:var(--blue-dim);border:1px solid rgba(79,142,247,0.2);color:var(--electric);
+}
+.pchip.sky { background:rgba(56,189,248,0.08);border-color:rgba(56,189,248,0.2);color:var(--sky); }
+.pchip.w { background:rgba(255,255,255,0.05);border-color:var(--border2);color:var(--muted2); }
+
+/* MARQUEE */
+.marquee-wrap { overflow:hidden;border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:.9rem 0;background:var(--bg2);position:relative;z-index:1; }
+.marquee-track { display:flex;white-space:nowrap;animation:marquee 22s linear infinite; }
+.mitem { display:inline-flex;align-items:center;gap:1.2rem;padding:0 1.5rem;font-weight:600;font-size:0.8rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted); }
+.mitem .md { color:var(--blue); }
+@keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+/* SECTIONS */
+section { padding:7rem 0;position:relative;z-index:1; }
+.s-eye {
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:0.7rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--electric);margin-bottom:.9rem;
+}
+.s-eye::before { content:'';width:18px;height:1.5px;background:var(--blue);display:block; }
+.s-title { font-weight:800;font-size:clamp(2rem,4vw,3rem);letter-spacing:-.04em;line-height:1.1;color:var(--white); }
+.s-title .dim { color:var(--muted);font-weight:400; }
+
+/* SKILLS */
+.skills-bg { background:var(--bg2); }
+.skills-layout { display:grid;grid-template-columns:240px 1fr;gap:5rem;align-items:start; }
+.skills-layout p { font-size:.9rem;color:var(--muted2);line-height:1.8;margin-top:1.2rem; }
+.sk-grid { display:grid;grid-template-columns:1fr 1fr;gap:1.2rem; }
+.sk-card {
+  background:var(--card);border:1px solid var(--border);border-radius:var(--r);
+  padding:1.5rem;box-shadow:var(--sh);
+  transition:transform .3s,box-shadow .3s,border-color .3s;
+  position:relative;overflow:hidden;
+}
+.sk-card::after { content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--blue),var(--sky));transform:scaleX(0);transform-origin:left;transition:transform .4s; }
+.sk-card:hover { transform:translateY(-5px);box-shadow:var(--sh-lg);border-color:rgba(79,142,247,0.25); }
+.sk-card:hover::after { transform:scaleX(1); }
+.sk-top { display:flex;align-items:center;gap:12px;margin-bottom:.7rem; }
+.sk-ico { width:38px;height:38px;border-radius:10px;background:var(--blue-dim);border:1px solid rgba(79,142,247,0.15);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0; }
+.sk-card h3 { font-weight:700;font-size:.92rem;color:var(--white); }
+.sk-card p { font-size:.78rem;color:var(--muted2);line-height:1.65;margin-bottom:.8rem; }
+.sk-tags { display:flex;flex-wrap:wrap;gap:6px; }
+.stag { font-size:.68rem;font-weight:600;padding:3px 10px;border-radius:6px;background:rgba(255,255,255,0.04);color:var(--muted2);border:1px solid var(--border); }
+
+.fs-pills { display:flex;flex-wrap:wrap;gap:10px;margin-top:2.5rem; }
+.fs-pill {
+  display:flex;align-items:center;gap:7px;padding:9px 18px;border-radius:100px;
+  background:var(--card);border:1px solid var(--border2);font-size:.8rem;font-weight:600;color:var(--muted2);
+  box-shadow:var(--sh);transition:all .25s;
+}
+.fs-pill:hover { border-color:var(--blue);color:var(--electric);background:var(--blue-dim); }
+
+/* EXPERIENCE */
+.exp-box { background:var(--card);border:1px solid var(--border2);border-radius:24px;overflow:hidden;box-shadow:var(--sh-lg); }
+.exp-head {
+  padding:2.5rem;border-bottom:1px solid var(--border);
+  display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:1rem;
+  background:linear-gradient(135deg,rgba(79,142,247,0.08),rgba(56,189,248,0.04));
+}
+.exp-co { font-weight:800;font-size:1.4rem;letter-spacing:-.03em;color:var(--white); }
+.exp-period {
+  padding:6px 16px;border-radius:100px;background:rgba(79,142,247,0.12);
+  border:1px solid rgba(79,142,247,0.25);font-size:.72rem;font-weight:700;color:var(--electric);letter-spacing:.04em;
+}
+.exp-role-t { font-size:.84rem;color:var(--muted2);margin-top:4px; }
+.exp-list { display:grid;grid-template-columns:1fr 1fr;gap:0; }
+.exp-li {
+  display:flex;align-items:flex-start;gap:14px;
+  padding:1.4rem 2rem;border-bottom:1px solid var(--border);border-right:1px solid var(--border);
+  font-size:.82rem;color:var(--muted2);line-height:1.65;
+}
+.exp-li:nth-child(2n) { border-right:none; }
+.exp-li:nth-last-child(-n+2) { border-bottom:none; }
+.eli { width:28px;height:28px;border-radius:8px;flex-shrink:0;background:var(--blue-dim);border:1px solid rgba(79,142,247,0.15);display:flex;align-items:center;justify-content:center;font-size:.75rem;margin-top:1px; }
+
+/* PROJECTS */
+.proj-bg { background:var(--bg2); }
+.proj-grid { display:grid;grid-template-columns:1fr 1fr;gap:1.5rem; }
+.proj-card {
+  background:var(--card);border:1px solid var(--border);border-radius:20px;padding:2rem;
+  position:relative;overflow:hidden;box-shadow:var(--sh);
+  transition:transform .4s cubic-bezier(.23,1,.32,1),box-shadow .4s,border-color .3s;
+}
+.proj-card:hover { transform:translateY(-8px);box-shadow:var(--sh-lg);border-color:rgba(79,142,247,0.3); }
+.proj-glow { position:absolute;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(79,142,247,0.1),transparent 70%);top:-60px;right:-60px;opacity:0;transition:opacity .4s;pointer-events:none; }
+.proj-card:hover .proj-glow { opacity:1; }
+.proj-num { position:absolute;top:.8rem;right:1.5rem;font-weight:900;font-size:4.5rem;color:rgba(255,255,255,0.03);line-height:1;letter-spacing:-.06em; }
+.proj-bgs { display:flex;flex-wrap:wrap;gap:7px;margin-bottom:1.2rem; }
+.pbg { font-size:.68rem;font-weight:700;letter-spacing:.04em;padding:4px 12px;border-radius:6px; }
+.pbg.b { background:var(--blue-dim);color:var(--electric);border:1px solid rgba(79,142,247,0.25); }
+.pbg.s { background:rgba(56,189,248,0.08);color:var(--sky);border:1px solid rgba(56,189,248,0.2); }
+.pbg.w { background:rgba(255,255,255,0.04);color:var(--muted2);border:1px solid var(--border); }
+.proj-title { font-weight:700;font-size:1.05rem;margin-bottom:.6rem;letter-spacing:-.02em;color:var(--white); }
+.proj-desc { font-size:.82rem;color:var(--muted2);line-height:1.75; }
+.proj-status { display:inline-flex;align-items:center;gap:6px;margin-top:1.1rem;font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--electric); }
+.proj-status::before { content:'';width:6px;height:6px;border-radius:50%;background:var(--electric);animation:pulse 2s infinite; }
+
+/* EDU */
+.edu-grid { display:grid;grid-template-columns:1fr 1fr;gap:1.5rem; }
+.edu-card { background:var(--card);border:1px solid var(--border);border-radius:20px;padding:2rem;box-shadow:var(--sh);transition:border-color .3s,transform .3s; }
+.edu-card:hover { border-color:rgba(79,142,247,0.25);transform:translateY(-4px); }
+.edu-top { display:flex;align-items:center;gap:14px;margin-bottom:1.2rem; }
+.edu-ico { width:46px;height:46px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;background:var(--blue-dim);border:1px solid rgba(79,142,247,0.15); }
+.edu-card h3 { font-weight:700;font-size:1rem;color:var(--white); }
+.edu-card p { font-size:.82rem;color:var(--muted2);line-height:1.7; }
+.edu-meta { font-size:.72rem;color:var(--electric);margin-top:.8rem;font-weight:700;letter-spacing:.04em; }
+.cert-list { list-style:none;margin-top:1rem;display:flex;flex-direction:column;gap:10px; }
+.cert-item { display:flex;align-items:center;gap:12px;padding:11px 16px;border-radius:12px;background:var(--card2);border:1px solid var(--border);font-size:.81rem;color:var(--muted2); }
+
+/* CONTACT */
+.contact-bg { background:var(--bg2);border-top:1px solid var(--border); }
+.contact-grid { display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center; }
+.contact-h { font-weight:800;font-size:clamp(2.5rem,5vw,4rem);letter-spacing:-.05em;line-height:1.05;color:var(--white);margin-bottom:1rem; }
+.contact-h em { color:var(--blue);font-style:normal; }
+.contact-sub { font-size:.9rem;color:var(--muted2);line-height:1.8;max-width:380px;margin-bottom:2.5rem; }
+.clinks { display:flex;flex-direction:column;gap:12px; }
+.clink {
+  display:flex;align-items:center;gap:1rem;padding:1rem 1.4rem;border-radius:14px;
+  background:var(--card);border:1px solid var(--border);text-decoration:none;color:var(--text);cursor:none;
+  transition:all .3s;
+}
+.clink:hover { border-color:rgba(79,142,247,0.35);transform:translateX(6px);background:var(--blue-dim); }
+.clink-ico { width:40px;height:40px;border-radius:10px;background:var(--card2);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0; }
+.clink-txt small { display:block;font-size:.67rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px; }
+.clink-txt strong { font-size:.87rem;font-weight:500; }
+.clink-arr { margin-left:auto;color:var(--muted);transition:color .2s,transform .2s; }
+.clink:hover .clink-arr { color:var(--blue);transform:translateX(3px); }
+
+.ctiles { display:flex;flex-direction:column;gap:14px; }
+.ctile { background:var(--card);border:1px solid var(--border);border-radius:18px;padding:1.8rem;position:relative;overflow:hidden; }
+.ctile::after { content:'';position:absolute;width:100px;height:100px;border-radius:50%;background:radial-gradient(circle,rgba(79,142,247,0.07),transparent 70%);bottom:-30px;right:-30px; }
+.ctile-l { font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:5px; }
+.ctile-v { font-weight:700;font-size:1.25rem;color:var(--white); }
+.ctile-v.bl { color:var(--electric); }
+.loc-tile { display:flex;align-items:center;gap:1rem;background:var(--card);border:1px solid var(--border);border-radius:18px;padding:1.5rem; }
+.loc-pin { width:46px;height:46px;border-radius:12px;background:var(--blue-dim);border:1px solid rgba(79,142,247,0.2);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0; }
+.loc-txt h4 { font-weight:700;color:var(--white);font-size:1rem; }
+.loc-txt p { font-size:.78rem;color:var(--muted2);margin-top:2px; }
+
+/* FOOTER */
+footer { background:var(--bg);border-top:1px solid var(--border);padding:2rem 3rem;display:flex;justify-content:space-between;align-items:center;position:relative;z-index:1; }
+footer p { font-size:.78rem;color:var(--muted); }
+footer .fr { display:flex;gap:1.5rem; }
+footer a { font-size:.78rem;color:var(--muted);text-decoration:none;transition:color .2s; }
+footer a:hover { color:var(--blue); }
+
+.divider { height:1px;background:var(--border);position:relative;z-index:1; }
+
+@keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+.reveal { opacity:0;transform:translateY(28px);transition:opacity .65s ease,transform .65s ease; }
+.reveal.in { opacity:1;transform:none; }
+
+::-webkit-scrollbar { width:4px; }
+::-webkit-scrollbar-track { background:var(--bg); }
+::-webkit-scrollbar-thumb { background:rgba(79,142,247,0.4);border-radius:2px; }
+
+@media (max-width:900px) {
+  .hero-inner,.skills-layout,.proj-grid,.edu-grid,.contact-grid { grid-template-columns:1fr; }
+  .profile-card { display:none; }
+  .exp-list { grid-template-columns:1fr; }
+  nav { padding:1rem 1.5rem; }
+  .nav-links { display:none; }
+  .wrapper { padding:0 1.5rem; }
+}
+@media (max-width:600px) { .sk-grid { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+
+<div class="cdot" id="cD"></div>
+<div class="cring" id="cR"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Swathi<em>.D</em></div>
+  <ul class="nav-links">
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="nav-pill"><span class="npulse"></span> Actively Seeking Opportunities</div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="about">
+  <div class="hero-glow"></div>
+  <div class="wrapper" style="width:100%">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-eyebrow">Frontend & Mobile Developer</div>
+        <h1 class="hero-name">
+          Swathi<br>
+          <span class="ghost">.D</span><span class="bl">.</span>
+        </h1>
+        <p class="hero-desc">Building pixel-perfect web & mobile experiences with React, Next.js, and Flutter — real-time IoT systems, MQTT integrations, and sharp UI that just works.</p>
+        <div class="hero-tags">
+          <span class="htag hi">React.js</span>
+          <span class="htag hi">Next.js</span>
+          <span class="htag hi">Flutter</span>
+          <span class="htag">JavaScript</span>
+          <span class="htag">TypeScript</span>
+          <span class="htag">Redux Toolkit</span>
+          <span class="htag">MQTT</span>
+          <span class="htag">WebSockets</span>
+          <span class="htag">REST APIs</span>
+        </div>
+        <div class="hero-ctas">
+          <a href="#projects" class="btn-blue">View Projects →</a>
+          <a href="#contact" class="btn-ghost">Get in Touch</a>
+        </div>
+      </div>
+      <div>
+        <div class="profile-card">
+          <div class="p-avatar">SD</div>
+          <div class="p-name">Swathi.D</div>
+          <div class="p-role">Frontend & Mobile Developer · Chennai 🇮🇳</div>
+          <div class="p-stats">
+            <div class="pst"><div class="pst-n">1<em>+</em></div><div class="pst-l">Year Experience</div></div>
+            <div class="pst"><div class="pst-n">5<em>+</em></div><div class="pst-l">Active Projects</div></div>
+            <div class="pst"><div class="pst-n">2</div><div class="pst-l">Certifications</div></div>
+            <div class="pst"><div class="pst-n">7.3</div><div class="pst-l">BE CGPA</div></div>
+          </div>
+          <div class="p-chips">
+            <span class="pchip">React.js</span>
+            <span class="pchip">Next.js</span>
+            <span class="pchip sky">Flutter</span>
+            <span class="pchip sky">MQTT</span>
+            <span class="pchip w">Redux</span>
+             <span class="pchip w">JavaScript</span>
+            <span class="pchip w">TypeScript</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span class="mitem">React.js <span class="md">✦</span></span>
+    <span class="mitem">Next.js <span class="md">✦</span></span>
+    <span class="mitem">Flutter <span class="md">✦</span></span>
+        <span class="mitem">JavaScript <span class="md">✦</span></span>
+    <span class="mitem">TypeScript <span class="md">✦</span></span>
+    <span class="mitem">Redux Toolkit <span class="md">✦</span></span>
+    <span class="mitem">MQTT Protocol <span class="md">✦</span></span>
+    <span class="mitem">WebSockets <span class="md">✦</span></span>
+    <span class="mitem">REST APIs <span class="md">✦</span></span>
+    <span class="mitem">Tailwind CSS <span class="md">✦</span></span>
+    <span class="mitem">Figma <span class="md">✦</span></span>
+    <span class="mitem">Git & GitHub <span class="md">✦</span></span>
+    <span class="mitem">React.js <span class="md">✦</span></span>
+    <span class="mitem">Next.js <span class="md">✦</span></span>
+    <span class="mitem">Flutter <span class="md">✦</span></span>
+        <span class="mitem">JavaScript <span class="md">✦</span></span>
+    <span class="mitem">TypeScript <span class="md">✦</span></span>
+    <span class="mitem">Redux Toolkit <span class="md">✦</span></span>
+    <span class="mitem">MQTT Protocol <span class="md">✦</span></span>
+    <span class="mitem">WebSockets <span class="md">✦</span></span>
+    <span class="mitem">REST APIs <span class="md">✦</span></span>
+    <span class="mitem">Tailwind CSS <span class="md">✦</span></span>
+    <span class="mitem">Figma <span class="md">✦</span></span>
+    <span class="mitem">Git & GitHub <span class="md">✦</span></span>
+  </div>
+</div>
+
+<!-- SKILLS -->
+<section id="skills" class="skills-bg">
+  <div class="wrapper">
+    <div class="skills-layout">
+      <div>
+        <div class="s-eye">Expertise</div>
+        <h2 class="s-title">Technical<br><span class="dim">Skills.</span></h2>
+        <p>Specialised in high-performance frontends, cross-platform mobile apps, and real-time IoT systems — from MQTT integrations to pixel-perfect UIs.</p>
+      </div>
+      <div>
+        <div class="sk-grid">
+          <div class="sk-card reveal">
+            <div class="sk-top"><div class="sk-ico">⚛️</div><h3>Frontend Development</h3></div>
+            <p>Scalable, responsive web apps with modern frameworks and state management.</p>
+            <div class="sk-tags"><span class="stag">Next.js</span><span class="stag">React.js</span><span class="stag">JavaScript</span><span class="stag">TypeScript</span><span class="stag">Redux Toolkit</span><span class="stag">Tailwind CSS</span><span class="stag">Material UI</span></div>
+          </div>
+          <div class="sk-card reveal" style="transition-delay:.1s">
+            <div class="sk-top"><div class="sk-ico">📱</div><h3>Mobile Development</h3></div>
+            <p>Cross-platform Flutter apps with real-time data and fluid UX, deployed as APKs.</p>
+            <div class="sk-tags"><span class="stag">Flutter</span><span class="stag">Dart</span><span class="stag">WebSockets</span><span class="stag">REST APIs</span><span class="stag">APK Deploy</span></div>
+          </div>
+          <div class="sk-card reveal" style="transition-delay:.15s">
+            <div class="sk-top"><div class="sk-ico">📡</div><h3>Real-Time & IoT</h3></div>
+            <p>Live data streaming for industrial systems using MQTT subscribe/publish and WebSockets.</p>
+            <div class="sk-tags"><span class="stag">MQTT</span><span class="stag">Subscribe/Publish</span><span class="stag">WebSockets</span><span class="stag">IoT Dashboards</span></div>
+          </div>
+          <div class="sk-card reveal" style="transition-delay:.2s">
+            <div class="sk-top"><div class="sk-ico">🛠️</div><h3>Tooling & Design</h3></div>
+            <p>Pixel-perfect Figma-to-code with clean dev workflows and version control.</p>
+            <div class="sk-tags"><span class="stag">Figma</span><span class="stag">Git</span><span class="stag">GitHub</span><span class="stag">Responsive Design</span><span class="stag">Perf. Opt.</span></div>
+          </div>
+        </div>
+        <div class="fs-pills reveal" style="transition-delay:.1s">
+          <div class="fs-pill">⚛️ React.js</div>
+          <div class="fs-pill">▲ Next.js</div>
+          <div class="fs-pill">💙 Flutter</div>
+           <div class="fs-pill">💙 JavaScript</div>
+          <div class="fs-pill">🔷 TypeScript</div>
+          <div class="fs-pill">🗃️ Redux Toolkit</div>
+          <div class="fs-pill">📡 MQTT</div>
+          <div class="fs-pill">🔌 WebSockets</div>
+          <div class="fs-pill">🌐 REST APIs</div>
+          <div class="fs-pill">🐙 Git & GitHub</div>
+          <div class="fs-pill">🎨 Figma</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="wrapper">
+    <div class="s-eye">Work History</div>
+    <h2 class="s-title" style="margin-bottom:2.5rem">Where I've <span class="dim">Worked.</span></h2>
+    <div class="exp-box reveal">
+      <div class="exp-head">
+        <div>
+          <div class="exp-co">Sustainabyte Technologies</div>
+          <div class="exp-role-t">Frontend & Mobile App Developer · Chennai, India</div>
+        </div>
+        <div class="exp-period">Apr 2025 – Present</div>
+      </div>
+      <div class="exp-list">
+        <div class="exp-li"><div class="eli">⚛️</div><span>Built responsive dashboards with React.js, Next.js & TypeScript for IoT monitoring systems</span></div>
+        <div class="exp-li"><div class="eli">📱</div><span>Developed Flutter mobile apps with dynamic dashboards and reusable component libraries</span></div>
+        <div class="exp-li"><div class="eli">📡</div><span>Implemented MQTT subscribe/publish & WebSockets for real-time data streaming in monitoring apps</span></div>
+        <div class="exp-li"><div class="eli">🔌</div><span>Integrated REST APIs for seamless data sync across web & mobile platforms</span></div>
+        <div class="exp-li"><div class="eli">🎨</div><span>Converted Figma designs to pixel-perfect UIs including thermostat & control dashboards</span></div>
+        <div class="exp-li"><div class="eli">⚡</div><span>Built admin dashboards & alert systems with optimised performance using Redux Toolkit</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PROJECTS -->
+<section id="projects" class="proj-bg">
+  <div class="wrapper">
+    <div class="s-eye">Current Work</div>
+    <h2 class="s-title" style="margin-bottom:2.5rem">Projects I'm <span class="dim">Building.</span></h2>
+    <div class="proj-grid">
+
+      <div class="proj-card reveal">
+        <div class="proj-glow"></div>
+        <div class="proj-num">01</div>
+        <div class="proj-bgs"><span class="pbg b">React.js</span><span class="pbg w">Material UI</span><span class="pbg w">JavaScript</span><span class="pbg w">TypeScript</span></div>
+        <div class="proj-title">Digiweld — Welding Platform Dashboard</div>
+        <p class="proj-desc">Interactive monitoring dashboard for a welding platform — real-time performance tracking, metrics views, streamlined UX for technicians and managers.</p>
+        <div class="proj-status">Active at Sustainabyte</div>
+      </div>
+
+      <div class="proj-card reveal" style="transition-delay:.1s">
+        <div class="proj-glow"></div>
+        <div class="proj-num">02</div>
+        <div class="proj-bgs"><span class="pbg b">Next.js</span><span class="pbg w">Tailwind CSS</span></div>
+        <div class="proj-title">Optibyte — Company Website</div>
+        <p class="proj-desc">Responsive company website with modern UI/UX, optimised navigation and fast load times, boosting brand presence with clean Next.js performance.</p>
+        <div class="proj-status">Active at Sustainabyte</div>
+      </div>
+
+      <div class="proj-card reveal" style="transition-delay:.15s">
+        <div class="proj-glow"></div>
+        <div class="proj-num">03</div>
+        <div class="proj-bgs"><span class="pbg b">Flutter</span><span class="pbg s">MQTT</span><span class="pbg s">WebSockets</span><span class="pbg w">REST APIs</span></div>
+        <div class="proj-title">Diesel Tank Monitor App</div>
+        <p class="proj-desc">Real-time mobile app for diesel tank level monitoring with live MQTT subscribe/publish data streaming, REST API sync, deployed as APK for field teams.</p>
+        <div class="proj-status">Active at Sustainabyte</div>
+      </div>
+
+      <div class="proj-card reveal" style="transition-delay:.18s">
+        <div class="proj-glow"></div>
+        <div class="proj-num">04</div>
+        <div class="proj-bgs"><span class="pbg b">Flutter</span><span class="pbg s">MQTT</span><span class="pbg w">Figma</span></div>
+        <div class="proj-title">AC Monitor & Control Dashboard</div>
+        <p class="proj-desc">Smart AC monitoring app with real-time temperature tracking via MQTT, interactive control panels, and pixel-perfect Figma-to-Flutter UI conversion.</p>
+        <div class="proj-status">Active at Sustainabyte</div>
+      </div>
+
+      <div class="proj-card reveal" style="transition-delay:.21s;grid-column:1/-1">
+        <div class="proj-glow"></div>
+        <div class="proj-num">05</div>
+        <div class="proj-bgs"><span class="pbg b">Flutter</span><span class="pbg s">MQTT</span><span class="pbg s">Subscribe / Publish</span><span class="pbg w">IR Blaster</span><span class="pbg w">Figma</span></div>
+        <div class="proj-title">IR Blaster Mobile Application</div>
+        <p class="proj-desc">Flutter-based IR blaster control app with full MQTT subscribe/publish integration. Built both the UI from Figma designs and the MQTT connection layer — enabling real-time remote control of IR devices directly from the mobile app. Handles command publishing, live status subscribing, and responsive control panels.</p>
+        <div class="proj-status">Active at Sustainabyte</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="wrapper">
+    <div class="s-eye">Background</div>
+    <h2 class="s-title" style="margin-bottom:2.5rem">Education & <span class="dim">Certs.</span></h2>
+    <div class="edu-grid">
+      <div class="edu-card reveal">
+        <div class="edu-top"><div class="edu-ico">🎓</div><h3>B.E. Computer Science</h3></div>
+        <p>As-Salam College of Engineering and Technology<br>Anna University, Chennai</p>
+        <div class="edu-meta">2020 – 2024 · CGPA: 7.3 / 10</div>
+      </div>
+      <div class="edu-card reveal" style="transition-delay:.1s">
+        <div class="edu-top"><div class="edu-ico">📜</div><h3>Certifications</h3></div>
+        <ul class="cert-list">
+          <li class="cert-item">🐍 Certified Python Developer — Vebbox Software Solutions</li>
+          <li class="cert-item">🌐 Certified Front-End Developer — Vebbox Software Solutions</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="contact-bg">
+  <div class="wrapper">
+    <div class="contact-grid">
+      <div>
+        <div class="s-eye">Let's Connect</div>
+        <div class="contact-h">Open to <em>New Roles.</em></div>
+        <p class="contact-sub">Actively looking for frontend & mobile opportunities. Let's build something great together.</p>
+        <div class="clinks">
+          <a class="clink" href="mailto:swathiyashamk@gmail.com">
+            <div class="clink-ico">✉️</div>
+            <div class="clink-txt"><small>Email</small><strong>swathiyashamk@gmail.com</strong></div>
+            <span class="clink-arr">→</span>
+          </a>
+          <a class="clink" href="https://www.linkedin.com/in/swathi-durai-7107582a7/" target="_blank">
+            <div class="clink-ico">💼</div>
+            <div class="clink-txt"><small>LinkedIn</small><strong>/in/swathi-durai</strong></div>
+            <span class="clink-arr">→</span>
+          </a>
+          <a class="clink" href="https://github.com/Swathi-0710" target="_blank">
+            <div class="clink-ico">🐙</div>
+            <div class="clink-txt"><small>GitHub</small><strong>Swathi-0710</strong></div>
+            <span class="clink-arr">→</span>
+          </a>
+          <a class="clink" href="tel:+917708020069">
+            <div class="clink-ico">📞</div>
+            <div class="clink-txt"><small>Phone</small><strong>+91 77080 20069</strong></div>
+            <span class="clink-arr">→</span>
+          </a>
+        </div>
+      </div>
+      <div class="ctiles reveal">
+        <div class="ctile"><div class="ctile-l">Job Status</div><div class="ctile-v bl">Actively Job Searching</div></div>
+        <div class="ctile"><div class="ctile-l">Experience</div><div class="ctile-v">1+ Year</div></div>
+        <div class="loc-tile">
+          <div class="loc-pin">📍</div>
+          <div class="loc-txt"><h4>Chennai, India</h4><p>Open to remote & hybrid roles & work from office</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2025 Swathi.D — Frontend & Mobile Developer</p>
+  <div class="fr">
+    <a href="mailto:swathiyashamk@gmail.com">Email</a>
+    <a href="https://github.com/Swathi-0710" target="_blank">GitHub</a>
+    <a href="https://www.linkedin.com/in/swathi-durai-7107582a7/" target="_blank">LinkedIn</a>
+  </div>
+</footer>
+
+<script>
+// CURSOR
+const d=document.getElementById('cD'),r=document.getElementById('cR');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+(function a(){d.style.left=mx+'px';d.style.top=my+'px';rx+=(mx-rx)*.1;ry+=(my-ry)*.1;r.style.left=rx+'px';r.style.top=ry+'px';requestAnimationFrame(a);})();
+
+// REVEAL
+const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');}),{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+// TILT
+document.querySelectorAll('.proj-card,.sk-card').forEach(c=>{
+  c.addEventListener('mousemove',e=>{
+    const rect=c.getBoundingClientRect(),x=(e.clientX-rect.left)/rect.width-.5,y=(e.clientY-rect.top)/rect.height-.5;
+    c.style.transform=`translateY(-6px) rotateX(${y*-7}deg) rotateY(${x*7}deg)`;
+  });
+  c.addEventListener('mouseleave',()=>c.style.transform='');
+});
+</script>
+</body>
+</html>
