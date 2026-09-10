@@ -959,8 +959,8 @@ export default function Hero() {
               {/* Download Resume */}
 
               <motion.a
-                href="/Swathi_Durai_Resume.pdf"
-                download="Swathi_Durai_Resume.pdf"
+                href="/Swathi_Developer.pdf"
+                download="Swathi_Developer.pdf"
                 whileHover={{
                   scale: 1.02,
                 }}
