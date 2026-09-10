@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Tech Stack Orbit</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/devicon/2.15.1/devicon.min.css" />
+<style>
+  :root{
+    --ink:#231a0f;
+    --gold-deep:#5c3a08;
+    --gold:#a9701c;
+    --gold-bright:#c98a26;
+    --cream:#fdf9f1;
+    --card:#fffdf9;
+    --line:#e7d6b3;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:transparent;
+    font-family:'Segoe UI',Inter,Arial,sans-serif;
+  }
+
+  .orbit-wrap{
+    position:relative;
+    width:min(92vw,480px);
+    aspect-ratio:1/1;
+  }
+
+  /* faint constellation backdrop, echoing the site's node/line motif */
+  .constellation{
+    position:absolute;inset:-6%;
+    opacity:.55;
+    pointer-events:none;
+  }
+
+  .ring{
+    position:absolute;
+    top:50%;left:50%;
+    border-radius:50%;
+    border:1px dashed var(--line);
+    transform:translate(-50%,-50%);
+  }
+  .ring-outer{ width:88%; height:88%; }
+  .ring-inner{ width:54%; height:54%; }
+
+  .hub{
+    position:absolute;
+    top:50%;left:50%;
+    transform:translate(-50%,-50%);
+    width:23%;
+    aspect-ratio:1/1;
+    border-radius:50%;
+    background:radial-gradient(circle at 32% 28%, var(--gold-bright), var(--gold) 55%, var(--gold-deep) 100%);
+    box-shadow:0 0 0 6px rgba(169,112,28,.12), 0 12px 28px rgba(92,58,8,.35);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:5;
+  }
+  .hub span{
+    color:var(--cream);
+    font-weight:800;
+    font-size:clamp(14px,3.6vw,20px);
+    letter-spacing:.02em;
+  }
+
+  .track{
+    position:absolute;inset:0;
+    animation:spin var(--dur) linear infinite;
+    animation-direction:var(--dir,normal);
+  }
+  .track.outer{ --dur:46s; --dir:normal; }
+  .track.inner{ --dur:34s; --dir:reverse; }
+
+  .sat{
+    position:absolute;
+    top:50%;left:50%;
+    width:0;height:0;
+  }
+  .sat .pos{
+    position:absolute;
+    transform:translate(-50%,-50%);
+  }
+
+  .badge{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:6px;
+    animation:spin var(--dur) linear infinite;
+    animation-direction:var(--cdir,reverse);
+  }
+  .track.outer .badge{ --dur:46s; --cdir:reverse; }
+  .track.inner .badge{ --dur:34s; --cdir:normal; }
+
+  .icon-circle{
+    width:52px;height:52px;
+    border-radius:50%;
+    background:var(--card);
+    border:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 6px 14px rgba(92,58,8,.10);
+    font-size:24px;
+    transition:transform .25s ease, box-shadow .25s ease;
+  }
+  .icon-circle:hover{
+    transform:translateY(-3px) scale(1.06);
+    box-shadow:0 10px 20px rgba(92,58,8,.20);
+  }
+  .track.inner .icon-circle{ width:42px;height:42px;font-size:19px; }
+
+  .label{
+    font-size:11px;
+    font-weight:700;
+    color:var(--ink);
+    background:rgba(253,249,241,.9);
+    padding:1px 7px;
+    border-radius:8px;
+    white-space:nowrap;
+  }
+
+  .lock-icon, .net-icon{
+    width:20px;height:20px;
+    color:var(--gold-deep);
+  }
+
+  @keyframes spin{
+    from{ transform:rotate(0deg); }
+    to{ transform:rotate(360deg); }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .track, .badge{ animation:none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="orbit-wrap">
+
+  <svg class="constellation" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <g stroke="#c98a26" stroke-width="0.15" fill="none">
+      <line x1="8" y1="12" x2="30" y2="30"/>
+      <line x1="92" y1="15" x2="70" y2="32"/>
+      <line x1="6" y1="88" x2="28" y2="70"/>
+      <line x1="94" y1="86" x2="72" y2="68"/>
+    </g>
+    <g fill="#c98a26" opacity="0.6">
+      <circle cx="8" cy="12" r="0.6"/>
+      <circle cx="92" cy="15" r="0.6"/>
+      <circle cx="6" cy="88" r="0.6"/>
+      <circle cx="94" cy="86" r="0.6"/>
+    </g>
+  </svg>
+
+  <div class="ring ring-outer"></div>
+  <div class="ring ring-inner"></div>
+
+  <div class="hub"><span>&lt;/&gt;</span></div>
+
+  <!-- OUTER RING: React, Next.js, TypeScript, Node.js, Express, MongoDB -->
+  <div class="track outer">
+
+    <div class="sat" style="transform:rotate(0deg)">
+      <div class="pos" style="transform:translate(190px,0) rotate(0deg)">
+        <div class="badge">
+          <div class="icon-circle"><i class="devicon-react-original colored"></i></div>
+          <span class="label">React.js</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sat" style="transform:rotate(60deg)">
+      <div class="pos" style="transform:translate(190px,0) rotate(-60deg)">
+        <div class="badge">
+          <div class="icon-circle"><i class="devicon-nextjs-original"></i></div>
+          <span class="label">Next.js</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sat" style="transform:rotate(120deg)">
+      <div class="pos" style="transform:translate(190px,0) rotate(-120deg)">
+        <div class="badge">
+          <div class="icon-circle"><i class="devicon-typescript-plain colored"></i></div>
+          <span class="label">TypeScript</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sat" style="transform:rotate(180deg)">
+      <div class="pos" style="transform:translate(190px,0) rotate(-180deg)">
+        <div class="badge">
+          <div class="icon-circle"><i class="devicon-nodejs-plain colored"></i></div>
+          <span class="label">Node.js</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sat" style="transform:rotate(240deg)">
+      <div class="pos" style="transform:translate(190px,0) rotate(-240deg)">
+        <div class="badge">
+          <div class="icon-circle"><i class="devicon-express-original"></i></div>
+          <span class="label">Express.js</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sat" style="transform:rotate(300deg)">
+      <div class="pos" style="transform:translate(190px,0) rotate(-300deg)">
+        <div class="badge">
+          <div class="icon-circle"><i class="devicon-mongodb-plain colored"></i></div>
+          <span class="label">MongoDB</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- INNER RING: JavaScript, HTML5, CSS3, JWT Auth, Microservices -->
+  <div class="track inner">
+
+    <div class="sat" style="transform:rotate(0deg)">
+      <div class="pos" style="transform:translate(118px,0) rotate(0deg)">
+        <div class="badge">
+          <div class="icon-circle"><i class="devicon-javascript-plain colored"></i></div>
+          <span class="label">JavaScript</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sat" style="transform:rotate(60deg)">
+      <div class="pos" style="transform:translate(118px,0) rotate(-60deg)">
+        <div class="badge">
+          <div class="icon-circle"><i class="devicon-html5-plain colored"></i></div>
+          <span class="label">HTML5</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sat" style="transform:rotate(120deg)">
+      <div class="pos" style="transform:translate(118px,0) rotate(-120deg)">
+        <div class="badge">
+          <div class="icon-circle"><i class="devicon-css3-plain colored"></i></div>
+          <span class="label">CSS3</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sat" style="transform:rotate(180deg)">
+      <div class="pos" style="transform:translate(118px,0) rotate(-180deg)">
+        <div class="badge">
+          <div class="icon-circle">
+            <svg class="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="4" y="11" width="16" height="9" rx="2"/>
+              <path d="M8 11V7a4 4 0 0 1 8 0v4"/>
+            </svg>
+          </div>
+          <span class="label">JWT Auth</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sat" style="transform:rotate(240deg)">
+      <div class="pos" style="transform:translate(118px,0) rotate(-240deg)">
+        <div class="badge">
+          <div class="icon-circle"><i class="devicon-materialui-plain colored"></i></div>
+          <span class="label">Material UI</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sat" style="transform:rotate(300deg)">
+      <div class="pos" style="transform:translate(118px,0) rotate(-300deg)">
+        <div class="badge">
+          <div class="icon-circle"><i class="devicon-figma-plain colored"></i></div>
+          <span class="label">Figma</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+</body>
+</html>
