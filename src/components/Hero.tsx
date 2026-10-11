@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import {
   ArrowRight,
   Download,
@@ -11,7 +11,8 @@ import {
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Float, Html, OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
-import { ReactNode, useRef } from "react";
+import { ReactNode, useRef, useEffect, useState } from "react";
+import { SiExpress, SiJavascript, SiTypescript } from "react-icons/si";
 
 
 // ============================================================
@@ -116,36 +117,6 @@ const NextjsIcon = ({
 );
 
 
-const TypeScriptIcon = ({
-  className = "w-7 h-7",
-}: {
-  className?: string;
-}) => (
-  <svg
-    className={className}
-    viewBox="0 0 24 24"
-    fill="currentColor"
-  >
-    <path d="M22 0H2a2 2 0 0 0-2 2v20a2 2 0 0 0 2 2h20a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM12 19.382c-.897.632-1.996.994-3.158.994-2.846 0-4.664-1.724-4.664-4.281h2.246c0 1.258.852 1.994 2.217 1.994 1.05 0 1.83-.563 1.83-1.406 0-2.222-4.832-2.14-4.832-5.742 0-1.84 1.488-3.41 4.193-3.41 1.42 0 2.585.492 3.328 1.155l-1.078 1.635c-.68-.463-1.406-.773-2.152-.773-1.121 0-1.782.598-1.782 1.348 0 2.05 4.832 1.922 4.832 5.672.012 1.975-1.506 3.527-4.182 3.527v-.012zm9.141-8.52h-3.492v8.52h-2.223v-8.52h-3.492V8.922h9.207v1.94z" />
-  </svg>
-);
-
-
-const JavaScriptIcon = ({
-  className = "w-7 h-7",
-}: {
-  className?: string;
-}) => (
-  <svg
-    className={className}
-    viewBox="0 0 24 24"
-    fill="currentColor"
-  >
-    <path d="M0 0h24v24H0V0zm22.034 18.276c-.175-1.095-.888-2.015-3.003-2.873-.736-.345-1.554-.585-1.797-1.14-.091-.225-.105-.449-.075-.6.075-.93 1.477-.75 1.519.466.015.015 2.103-.12 2.103-.12.027-2.296-1.576-3.496-3.662-3.496-2.43 0-3.81 1.275-3.855 3.09-.045 1.95 1.17 2.76 2.58 3.39 1.56.63 2.13.9 2.295 1.62.195.84-.045 1.53-1.2 1.53-1.607 0-2.055-1.14-2.16-1.83l-2.1.18c.18 2.22 1.59 3.51 3.99 3.51 2.94 0 3.795-1.56 3.6-3.15zM10.2 12h2.4v8.01c0 1.95-.99 2.82-3.03 2.82-.99 0-2.07-.33-2.495-.99l1.14-1.425c.345.45.765.6 1.35.6.84 0 1.035-.375 1.035-1.425V12z" />
-  </svg>
-);
-
-
 const NodejsIcon = ({
   className = "w-7 h-7",
 }: {
@@ -172,29 +143,6 @@ const NodejsIcon = ({
       d="M12 7.5c2 1.5 3 3.5 3 5.5c0 2-1.5 3-3 3.5"
       strokeWidth="1.2"
     />
-  </svg>
-);
-
-
-const ExpressIcon = ({
-  className = "w-7 h-7",
-}: {
-  className?: string;
-}) => (
-  <svg
-    className={className}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="1.5"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <circle cx="12" cy="12" r="10" />
-    <path d="M6.5 9.5L10.5 14.5" />
-    <path d="M10.5 9.5L6.5 14.5" />
-    <path d="M14 14.5c1.5 0 3-1 3-2.5s-1.5-2.5-3-2.5s-3 1-3 2.5s1.5 2.5 3 2.5z" />
-    <path d="M11 12h6" />
   </svg>
 );
 
@@ -290,13 +238,13 @@ const technologyItems: {
   },
   {
     name: "TypeScript",
-    icon: <TypeScriptIcon />,
+    icon: <SiTypescript />,
     color: "#3178c6",
     position: [2.25, -0.65, 0.2],
   },
   {
     name: "JavaScript",
-    icon: <JavaScriptIcon />,
+    icon: <SiJavascript />,
     color: "#9a720d",
     position: [1.25, -2.05, 0.4],
   },
@@ -308,7 +256,7 @@ const technologyItems: {
   },
   {
     name: "Express.js",
-    icon: <ExpressIcon />,
+    icon: <SiExpress />,
     color: "#333333",
     position: [-2.15, -1.05, 0.4],
   },
@@ -355,14 +303,14 @@ const technologyItems: {
 const orbitOuterItems = [
   { name: "React.js", icon: <ReactIcon />, tone: "react" },
   { name: "Next.js", icon: <NextjsIcon />, tone: "next" },
-  { name: "TypeScript", icon: <TypeScriptIcon />, tone: "typescript" },
+  { name: "TypeScript", icon: <SiTypescript />, tone: "typescript" },
   { name: "Node.js", icon: <NodejsIcon />, tone: "node" },
-  { name: "Express.js", icon: <ExpressIcon />, tone: "express" },
+  { name: "Express.js", icon: <SiExpress />, tone: "express" },
   { name: "MongoDB", icon: <MongoDbIcon />, tone: "mongo" },
 ];
 
 const orbitInnerItems = [
-  { name: "JavaScript", icon: <JavaScriptIcon />, tone: "javascript" },
+  { name: "JavaScript", icon: <SiJavascript />, tone: "javascript" },
   { name: "HTML5", icon: <span>5</span>, tone: "html" },
   { name: "CSS3", icon: <span>#</span>, tone: "css" },
   { name: "JWT Auth", icon: <span>⌑</span>, tone: "jwt" },
@@ -697,35 +645,39 @@ function TechnologyScene() {
 // THREE.JS CANVAS
 // ============================================================
 
-function TechnologyGlobe() {
-  return (
-    <div className="technology-globe">
+// function TechnologyGlobe() {
+//   return (
+//     <div className="technology-globe">
 
-      <Canvas
-        camera={{
-          position: [0, 0, 8],
-          fov: 42,
-        }}
-        dpr={[1, 1.5]}
-        gl={{
-          antialias: true,
-          alpha: true,
-        }}
-      >
+//       <Canvas
+//         camera={{
+//           position: [0, 0, 8],
+//           fov: 42,
+//         }}
+//         dpr={prefersReducedMotion ? [1, 1] : [1, 1.5]}
+//         gl={{
+//           antialias: !prefersReducedMotion,
+//           alpha: true,
+//           powerPreference: "high-performance",
+//         }}
+//         performance={{
+//           min: 0.5,
+//         }}
+//       >
 
-        <TechnologyScene />
+//         <TechnologyScene />
 
-        <OrbitControls
-          enableZoom={false}
-          enablePan={false}
-          enableRotate={false}
-        />
+//         <OrbitControls
+//           enableZoom={false}
+//           enablePan={false}
+//           enableRotate={false}
+//         />
 
-      </Canvas>
+//       </Canvas>
 
-    </div>
-  );
-}
+//     </div>
+//   );
+// }
 
 
 // ============================================================
@@ -761,6 +713,13 @@ export default function Hero() {
   // FRAMER MOTION
   // ==========================================================
 
+  const prefersReducedMotion = useReducedMotion();
+  const [isClientReady, setIsClientReady] = useState(false);
+
+  useEffect(() => {
+    setIsClientReady(true);
+  }, []);
+
   const containerVariants = {
     hidden: {
       opacity: 0,
@@ -770,7 +729,7 @@ export default function Hero() {
       opacity: 1,
 
       transition: {
-        staggerChildren: 0.1,
+        staggerChildren: prefersReducedMotion ? 0 : 0.1,
       },
     },
   };
@@ -788,8 +747,8 @@ export default function Hero() {
 
       transition: {
         type: "spring" as const,
-        stiffness: 100,
-        damping: 15,
+        stiffness: prefersReducedMotion ? 60 : 100,
+        damping: prefersReducedMotion ? 18 : 15,
       },
     },
   };
@@ -836,8 +795,8 @@ export default function Hero() {
 
           <motion.div
             variants={containerVariants}
-            initial="hidden"
-            animate="visible"
+            initial={isClientReady ? "hidden" : false}
+            animate={isClientReady ? "visible" : false}
             className="lg:col-span-7 flex flex-col items-start gap-5 text-left relative z-20"
           >
 
@@ -960,25 +919,16 @@ export default function Hero() {
 
               {/* Download Resume */}
 
-              <motion.a
-                href="/Swathi_Developer.pdf"
-                download="Swathi_Developer.pdf"
-                whileHover={{
-                  scale: 1.02,
-                }}
-                whileTap={{
-                  scale: 0.98,
-                }}
-                className="inline-flex h-12 w-52 items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white px-6 font-semibold text-secondary transition-all duration-300 hover:border-secondary hover:bg-gray-50"
-              >
-
-                <span>
-                  Download Resume
-                </span>
-
-                <Download className="h-4 w-4" />
-
-              </motion.a>
+      <motion.a
+  href="/Swathi_Developer.pdf"
+  download="Swathi_Developer.pdf"
+  whileHover={{ scale: 1.02 }}
+  whileTap={{ scale: 0.98 }}
+  className="inline-flex h-12 w-52 items-center justify-center gap-2 whitespace-nowrap rounded-xl border border-gray-200 bg-white px-6 font-semibold text-secondary transition-all duration-300 hover:border-secondary hover:bg-gray-50"
+>
+  <span>Download Resume</span>
+  <Download className="h-4 w-4 shrink-0" />
+</motion.a>
 
             </motion.div>
 
@@ -1036,20 +986,20 @@ export default function Hero() {
           ================================================== */}
 
           <motion.div
-            initial={{
+            initial={isClientReady ? {
               opacity: 0,
               scale: 0.88,
               x: 30,
-            }}
-            animate={{
+            } : false}
+            animate={isClientReady ? {
               opacity: 1,
               scale: 1,
               x: 0,
-            }}
+            } : false}
             transition={{
-              duration: 1,
+              duration: prefersReducedMotion ? 0.3 : 1,
               ease: "easeOut",
-              delay: 0.25,
+              delay: prefersReducedMotion ? 0 : 0.25,
             }}
             className="lg:col-span-5 flex w-full items-center justify-center relative"
           >

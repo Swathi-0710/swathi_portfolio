@@ -22,32 +22,36 @@ export default function CustomCursor() {
     document.body.classList.add("custom-cursor-active");
 
     const mouse = { x: -100, y: -100 };
-    const ring = { x: -100, y: -100 };
     let isHovered = false;
+    let animationFrameId = 0;
 
-    const handleMouseMove = (e: MouseEvent) => {
-      mouse.x = e.clientX;
-      mouse.y = e.clientY;
-
+    const syncCursor = () => {
       if (dotRef.current) {
         const dotSize = 8;
         dotRef.current.style.transform = `translate3d(${mouse.x - dotSize / 2}px, ${mouse.y - dotSize / 2}px, 0)`;
+      }
+
+      if (ringRef.current) {
+        const ringSize = isHovered ? 46 : 32;
+        const offset = ringSize / 2;
+        ringRef.current.style.transform = `translate3d(${mouse.x - offset}px, ${mouse.y - offset}px, 0)`;
       }
     };
 
     const handlePointerMove = (e: PointerEvent) => {
       mouse.x = e.clientX;
       mouse.y = e.clientY;
-
-      if (dotRef.current) {
-        const dotSize = 8;
-        dotRef.current.style.transform = `translate3d(${mouse.x - dotSize / 2}px, ${mouse.y - dotSize / 2}px, 0)`;
+      if (!animationFrameId) {
+        animationFrameId = requestAnimationFrame(() => {
+          animationFrameId = 0;
+          syncCursor();
+        });
       }
     };
 
-    const handleMouseOver = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      if (!target) return;
+    const handlePointerOver = (e: PointerEvent) => {
+      const target = e.target;
+      if (!(target instanceof Element)) return;
 
       const isInteractive =
         target.tagName === "A" ||
@@ -58,16 +62,19 @@ export default function CustomCursor() {
         target.tagName === "INPUT" ||
         target.tagName === "TEXTAREA";
 
-      isHovered = Boolean(isInteractive);
+      const nextIsHovered = Boolean(isInteractive);
+      if (isHovered === nextIsHovered) return;
+      isHovered = nextIsHovered;
       setCursorVisualState(isHovered);
+      syncCursor();
     };
 
-    const handleMouseLeaveWindow = () => {
+    const handlePointerLeaveWindow = () => {
       if (dotRef.current) dotRef.current.style.opacity = "0";
       if (ringRef.current) ringRef.current.style.opacity = "0";
     };
 
-    const handleMouseEnterWindow = () => {
+    const handlePointerEnterWindow = () => {
       if (dotRef.current) dotRef.current.style.opacity = "1";
       if (ringRef.current) ringRef.current.style.opacity = "1";
     };
@@ -93,39 +100,17 @@ export default function CustomCursor() {
       }
     };
 
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("pointermove", handlePointerMove);
-    window.addEventListener("mouseover", handleMouseOver);
-    document.addEventListener("mouseleave", handleMouseLeaveWindow);
-    document.addEventListener("mouseenter", handleMouseEnterWindow);
-
-    // Smooth ring interpolation using requestAnimationFrame
-    let animationFrameId: number;
-    const animate = () => {
-      const dx = mouse.x - ring.x;
-      const dy = mouse.y - ring.y;
-
-      // Interpolation speed
-      ring.x += dx * 0.16;
-      ring.y += dy * 0.16;
-
-      if (ringRef.current) {
-        const ringSize = isHovered ? 46 : 32;
-        const offset = ringSize / 2;
-        ringRef.current.style.transform = `translate3d(${ring.x - offset}px, ${ring.y - offset}px, 0)`;
-      }
-
-      animationFrameId = requestAnimationFrame(animate);
-    };
-    animate();
+    window.addEventListener("pointermove", handlePointerMove, { passive: true });
+    window.addEventListener("pointerover", handlePointerOver, { passive: true });
+    window.addEventListener("pointerleave", handlePointerLeaveWindow);
+    window.addEventListener("pointerenter", handlePointerEnterWindow);
 
     return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("pointermove", handlePointerMove);
-      window.removeEventListener("mouseover", handleMouseOver);
-      document.removeEventListener("mouseleave", handleMouseLeaveWindow);
-      document.removeEventListener("mouseenter", handleMouseEnterWindow);
-      cancelAnimationFrame(animationFrameId);
+      window.removeEventListener("pointerover", handlePointerOver);
+      window.removeEventListener("pointerleave", handlePointerLeaveWindow);
+      window.removeEventListener("pointerenter", handlePointerEnterWindow);
+      if (animationFrameId) cancelAnimationFrame(animationFrameId);
       document.body.classList.remove("custom-cursor-active");
     };
   }, []);

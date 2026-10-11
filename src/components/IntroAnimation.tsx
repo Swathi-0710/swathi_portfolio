@@ -9,7 +9,12 @@ export default function IntroAnimation() {
   const smoothEase = [0.22, 1, 0.36, 1] as const;
 
   useEffect(() => {
-    const introDuration = prefersReducedMotion ? 1000 : 3800;
+    if (prefersReducedMotion) {
+      setShowIntro(false);
+      return;
+    }
+
+    const introDuration = 1200;
     const timer = window.setTimeout(() => {
       setShowIntro(false);
     }, introDuration);

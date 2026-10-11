@@ -49,6 +49,7 @@ export default function Home() {
   return (
     <>
       <IntroAnimation />
+      <CustomCursor />
 
       <motion.div
         initial={{ opacity: 0, y: 12, filter: "blur(10px)" }}
@@ -60,7 +61,6 @@ export default function Home() {
         }}
         className="min-h-screen"
       >
-        <CustomCursor />
         <Header />
 
         <main className="page-single-scroll bg-white">

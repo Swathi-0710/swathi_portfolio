@@ -155,16 +155,11 @@ h1, h2, h3, h4, h5, h6 {
 /* Keep the standard browser cursor visible across the app on desktop */
 @media (hover: hover) and (pointer: fine) {
   body.custom-cursor-active {
-    cursor: auto !important;
+    cursor: none !important;
   }
 
-  body.custom-cursor-active *,
-  body.custom-cursor-active a,
-  body.custom-cursor-active button,
-  body.custom-cursor-active input,
-  body.custom-cursor-active textarea,
-  body.custom-cursor-active [role="button"] {
-    cursor: auto !important;
+  body.custom-cursor-active * {
+    cursor: none !important;
   }
 }
 
