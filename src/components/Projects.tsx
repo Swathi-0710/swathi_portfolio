@@ -95,7 +95,7 @@ export default function Projects() {
 
             return (
               <article key={project.num} className="project-card">
-                <div className="project-preview">
+                {/* <div className="project-preview">
                   {!showPlaceholder ? (
                     <img
                       src={currentImage}
@@ -115,11 +115,22 @@ export default function Projects() {
                   )}
 
                   <div className="project-number">{project.num}</div>
-                </div>
+                </div> */}
 
                 <div className="project-body">
                   <div className="project-header">
-                    <h3>{project.title}</h3>
+                   <h3
+  className="
+    !bg-gradient-to-b
+    !from-[#B8860B]
+    !via-[#7A5A08]
+    !to-[#17130A]
+    !bg-clip-text
+    !text-transparent
+  "
+>
+  {project.title}
+</h3>
                     <ArrowUpRight size={19} strokeWidth={1.8} className="project-arrow" />
                   </div>
 

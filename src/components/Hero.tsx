@@ -259,7 +259,7 @@ const FlutterIcon = ({
 const HeroLandscape = () => (
   <img
     className="hero-landscape opacity-10"
-    src="./background.svg"
+    src="/background.svg"
     alt=""
     aria-hidden="true"
   />
@@ -801,7 +801,7 @@ export default function Hero() {
 
   return (
     <section
-      className="relative min-h-screen bg-white text-secondary flex items-center pt-24 pb-12 overflow-hidden"
+      className="relative  bg-white text-secondary flex items-center pt-24 pb-12 overflow-hidden"
       id="home"
     >
 
@@ -821,7 +821,9 @@ export default function Hero() {
 
       {/* Main Container */}
 
-      <div className="container mx-auto px-6 relative z-10">
+      <div 
+      className="container mx-auto px-6 relative z-10"
+      >
 
         <div
           className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-4 items-center"

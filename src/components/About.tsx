@@ -9,34 +9,29 @@ export default function About() {
     { src: "/design-1.png", alt: "Learning platform interface" },
     { src: "/design.png", alt: "Developer workspace illustration" },
     { src: "/design-2.png", alt: "Developer workspace illustration" },
-    { src: "/todo.png", alt: "Task management dashboard" },
   ];
 
   useEffect(() => {
     const interval = window.setInterval(() => {
       setActiveImage((current) => (current + 1) % aboutImages.length);
-    }, 4500);
+    }, 3500);
 
     return () => window.clearInterval(interval);
   }, [aboutImages.length]);
 
   return (
-    <section className="about-section" id="about" style={{ padding: "4rem 0" }}>
+    <section
+      className="about-section relative overflow-hidden bg-white"
+      id="about"
+      style={{ padding: "2.5rem 0 4rem", scrollMarginTop: "5.5rem" }}
+    >
       <div
-        className="glow-blob"
-        style={{
-          bottom: "10%",
-          left: "-5%",
-          width: "400px",
-          height: "400px",
-          backgroundColor: "rgba(154, 113, 21, 0.05)",
-        }}
+        aria-hidden="true"
+        className="absolute inset-0 bg-[url('/background.svg')] bg-cover bg-center bg-no-repeat opacity-10"
       />
 
-      <div className="container">
-        <h5
-          className="mb-10 text-[35px] font-bold !bg-gradient-to-b !from-[#B8860B] !via-[#7A5A08] !to-[#17130A] !bg-clip-text !text-transparent"
-        >
+      <div className="container relative z-10">
+        <h5 className="mb-10 text-[35px] font-bold !bg-gradient-to-b !from-[#B8860B] !via-[#7A5A08] !to-[#17130A] !bg-clip-text !text-transparent">
           About <span>Me</span>
         </h5>
 
@@ -56,6 +51,8 @@ export default function About() {
             className="about-visual-carousel"
           >
             <div className="about-visual-frame">
+              <div className="about-visual-sheen" aria-hidden="true" />
+
               <AnimatePresence mode="wait">
                 <motion.img
                   key={aboutImages[activeImage].src}
@@ -68,6 +65,20 @@ export default function About() {
                   className="about-carousel-image"
                 />
               </AnimatePresence>
+
+              <div className="about-carousel-dots" aria-label="About image indicator">
+                {aboutImages.map((image, index) => (
+                  <motion.span
+                    key={image.src}
+                    className={`about-carousel-dot ${activeImage === index ? "is-active" : ""}`}
+                    animate={{
+                      scale: activeImage === index ? 1 : 0.9,
+                      opacity: activeImage === index ? 1 : 0.5,
+                    }}
+                    transition={{ duration: 0.35, ease: "easeOut" }}
+                  />
+                ))}
+              </div>
             </div>
           </motion.div>
 
@@ -118,15 +129,6 @@ export default function About() {
       </div>
 
       <style jsx global>{`
-        .about-visual {
-          position: relative;
-          min-height: 420px;
-          width: 100%;
-          overflow: hidden;
-          border-radius: 30px;
-          background: transparent;
-        }
-
         .about-visual-carousel {
           display: flex;
           width: 100%;
@@ -140,14 +142,17 @@ export default function About() {
           max-width: 760px;
           aspect-ratio: 16 / 10;
           overflow: hidden;
+          border-radius: 28px;
+          background: linear-gradient(135deg, rgba(181, 122, 27, 0.11), rgba(255, 255, 255, 0.95));
+          border: 1px solid rgba(154, 113, 21, 0.12);
+          box-shadow: 0 24px 60px rgba(120, 92, 17, 0.08);
         }
 
-        .about-visual-image {
+        .about-visual-sheen {
           position: absolute;
           inset: 0;
-          width: 100%;
-          height: 100%;
-          object-fit: contain;
+          background: radial-gradient(circle at top left, rgba(255,255,255,0.72), transparent 38%);
+          pointer-events: none;
         }
 
         .about-carousel-image {
@@ -156,260 +161,48 @@ export default function About() {
           width: 100%;
           height: 100%;
           object-fit: contain;
+          filter: drop-shadow(0 18px 20px rgba(93, 64, 12, 0.12));
         }
 
-        .binary-bg {
-          position: absolute;
-          left: 8%;
-          top: 10%;
-          transform: rotate(-12deg);
-          font-size: 0.7rem;
-          font-weight: 700;
-          letter-spacing: 0.08em;
-          color: rgba(122, 90, 8, 0.18);
-          display: grid;
-          gap: 0.6rem;
-          line-height: 1.2;
-          white-space: nowrap;
-        }
-
-        .server-stack {
-          position: absolute;
-          left: 0;
-          bottom: 18px;
-          width: 130px;
-          height: 120px;
-          display: flex;
-          flex-direction: column-reverse;
-          align-items: center;
-          justify-content: flex-end;
-          gap: 10px;
-        }
-
-        .server-stack span {
-          display: block;
-          width: 74%;
-          height: 18px;
-          border-radius: 8px;
-          background: linear-gradient(180deg, #d7b66a, #b88a2a);
-          box-shadow: inset 0 0 0 2px rgba(255,255,255,0.18);
-          position: relative;
-        }
-
-        .server-stack span::before,
-        .server-stack span::after {
-          content: "";
+        .about-carousel-dots {
           position: absolute;
           left: 50%;
-          transform: translateX(-50%);
-          width: 70%;
-          height: 4px;
-          background: rgba(54, 42, 15, 0.18);
-          border-radius: 999px;
-        }
-
-        .server-stack span::before { top: 5px; }
-        .server-stack span::after { bottom: 5px; }
-
-        .laptop-wrap {
-          position: absolute;
-          left: 12%;
-          right: 0;
-          bottom: 0;
-          width: min(92%, 660px);
-          height: 320px;
-        }
-
-        .laptop-screen {
-          position: absolute;
-          left: 15%;
-          top: 28px;
-          width: 68%;
-          height: 150px;
-          background: linear-gradient(180deg, #d2c7b8, #4e504d);
-          border-radius: 16px 16px 10px 10px;
-          transform: skewX(-8deg);
-          box-shadow: inset 0 0 0 10px rgba(33, 33, 33, 0.2);
-          overflow: hidden;
-        }
-
-        .laptop-screen::before {
-          content: "";
-          position: absolute;
-          inset: 0;
-          background: linear-gradient(90deg, rgba(255,255,255,0.08), rgba(0,0,0,0));
-        }
-
-        .screen-code-line {
-          position: relative;
-          height: 8px;
-          border-radius: 999px;
-          background: rgba(255, 204, 84, 0.95);
-          margin: 18px 22px 0 18px;
-          box-shadow: 0 0 0 1px rgba(255,255,255,0.12);
-        }
-
-        .screen-code-line.short { width: 35%; }
-        .screen-code-line.medium { width: 48%; }
-        .screen-code-line.long { width: 78%; }
-
-        .laptop-base {
-          position: absolute;
-          left: 5%;
-          right: 3%;
           bottom: 18px;
-          height: 74px;
-          border-radius: 18px 18px 20px 20px;
-          background: linear-gradient(180deg, #d5a728, #b57c10 55%, #7f5907);
-          transform: perspective(900px) rotateX(48deg);
-          box-shadow: 0 26px 35px rgba(122, 90, 8, 0.2);
-        }
-
-        .laptop-base::before {
-          content: "";
-          position: absolute;
-          inset: 6px 18px 14px;
-          border-radius: 12px;
-          background: rgba(255,255,255,0.1);
-        }
-
-        .person {
-          position: absolute;
-          right: 8%;
-          bottom: 52px;
-          width: 180px;
-          height: 150px;
-        }
-
-        .head {
-          position: absolute;
-          left: 54px;
-          top: 10px;
-          width: 54px;
-          height: 54px;
-          border-radius: 50%;
-          background: #f0c6a3;
-          box-shadow: inset -4px -8px 0 rgba(0,0,0,0.02);
-        }
-
-        .head::before,
-        .head::after {
-          content: "";
-          position: absolute;
-          top: 12px;
-          width: 10px;
-          height: 10px;
-          border-radius: 50%;
-          background: #3b2f2b;
-        }
-
-        .head::before { left: 12px; }
-        .head::after { right: 12px; }
-
-        .body {
-          position: absolute;
-          left: 40px;
-          top: 58px;
-          width: 88px;
-          height: 68px;
-          border-radius: 24px 24px 18px 18px;
-          background: #fdfdfd;
-          box-shadow: inset 0 0 0 2px rgba(0,0,0,0.02);
-        }
-
-        .arm {
-          position: absolute;
-          width: 18px;
-          height: 60px;
-          border-radius: 12px;
-          background: #f0c6a3;
-          top: 68px;
-        }
-
-        .arm-left {
-          left: 30px;
-          transform: rotate(18deg);
-        }
-
-        .arm-right {
-          right: 22px;
-          transform: rotate(-18deg);
-        }
-
-        .legs {
-          position: absolute;
-          left: 52px;
-          bottom: 0;
-          display: flex;
-          gap: 22px;
-        }
-
-        .legs span {
-          display: block;
-          width: 18px;
-          height: 58px;
-          background: #2f2d33;
-          border-radius: 10px;
-          position: relative;
-        }
-
-        .legs span::before {
-          content: "";
-          position: absolute;
-          bottom: -8px;
-          left: -6px;
-          width: 30px;
-          height: 16px;
-          border-radius: 10px;
-          background: #1b1b1d;
-        }
-
-        .float-card {
-          position: absolute;
-          right: 10px;
-          width: 78px;
-          height: 78px;
-          border-radius: 18px;
-          background: linear-gradient(180deg, #d3a220, #b57d12);
-          box-shadow: 0 18px 18px rgba(122, 90, 8, 0.22);
+          transform: translateX(-50%);
           display: flex;
           align-items: center;
           justify-content: center;
-          color: #fff;
-          font-size: 1.8rem;
-          font-weight: 800;
+          gap: 10px;
+          z-index: 2;
+          padding: 8px 14px;
+          border-radius: 999px;
+          background: rgba(255, 255, 255, 0.65);
+          backdrop-filter: blur(8px);
+          border: 1px solid rgba(154, 113, 21, 0.1);
+          box-shadow: 0 8px 18px rgba(104, 76, 11, 0.04);
         }
 
-        .float-card-top {
-          top: 14px;
-          right: 42px;
+        .about-carousel-dot {
+          display: block;
+          width: 10px;
+          height: 10px;
+          border-radius: 999px;
+          background: rgba(149, 114, 29, 0.28);
+          border: 1px solid rgba(149, 114, 29, 0.18);
+          box-shadow: inset 0 0 0 1px rgba(255,255,255,0.15);
         }
 
-        .float-card-mid {
-          top: 110px;
-          right: 0;
-        }
-
-        .float-card-bottom {
-          top: 204px;
-          right: 42px;
-          font-size: 2rem;
+        .about-carousel-dot.is-active {
+          width: 30px;
+          background: linear-gradient(90deg, #d9ae4a 0%, #b8860b 100%);
+          border-color: rgba(184, 134, 11, 0.8);
+          box-shadow: 0 0 0 3px rgba(184, 134, 11, 0.12);
         }
 
         @media (max-width: 992px) {
           .about-layout-grid {
             grid-template-columns: 1fr !important;
             gap: 1.5rem !important;
-          }
-
-          .about-visual {
-            min-height: 320px;
-            margin-bottom: 0.5rem;
-          }
-
-          .laptop-wrap {
-            width: 100%;
-            left: 8%;
           }
         }
       `}</style>

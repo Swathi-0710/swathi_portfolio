@@ -8,17 +8,21 @@
   --font-display: "Poppins", "Sora", "sans-serif";
 }
 
+@layer base {
+  * { margin: 0; padding: 0; }
+}
+
 :root {
-  --bg: #F8F5EE; /* Off White (Methi/Fenugreek bg) */
-  --bg-card: #FFFDF7; /* Cream White (Methi/Fenugreek card bg) */
+  --bg: #ffffff; /* Off White (Methi/Fenugreek bg) */
+  --bg-card: #ffffff; /* Cream White (Methi/Fenugreek card bg) */
   --bg-card-hover: #FFFFFF;
   --border: rgba(154, 113, 21, 0.08); /* Primary Yellow border */
   --border-hover: rgba(154, 113, 21, 0.25);
-  
+
   --text-primary: #2B2B2B; /* Dark Text */
   --text-secondary: #5C5C5C;
   --text-muted: #8E8E8E;
-  
+
   --primary: #9A7115; /* Primary Yellow */
   --primary-hover: #B88A1A; /* Lighter Variant */
   --primary-rgb: 154, 113, 21;
@@ -26,37 +30,47 @@
   --secondary-rgb: 212, 166, 42;
   --accent: #B88A1A;
   --white: #FFFDF7;
-  
+
   --font-sans: 'Inter', sans-serif;
   --font-display: 'Outfit', sans-serif;
   --font-mono: 'DM Mono', monospace;
-  
+
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 18px;
   --radius-full: 9999px;
-  
+
   --shadow-sm: 0 4px 12px rgba(154, 113, 21, 0.02), 0 2px 4px rgba(43, 43, 43, 0.01);
   --shadow-md: 0 12px 32px rgba(154, 113, 21, 0.04), 0 4px 12px rgba(43, 43, 43, 0.02);
   --shadow-lg: 0 24px 64px rgba(154, 113, 21, 0.07), 0 8px 24px rgba(43, 43, 43, 0.03);
 }
 
+/*
+  FIX: the old reset set margin/padding to 0 outside any layer,
+  which overrode Tailwind utilities like p-5 and mx-4.
+  Tailwind's preflight already resets these, so only box-sizing is kept.
+*/
 *, *::before, *::after {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
 }
 
+/*
+  FIX: overflow-x: clip stops the page from shifting sideways
+  when a nav link jumps to an #anchor.
+*/
 html {
   scroll-behavior: smooth;
   color-scheme: light;
+  overflow-x: clip;
+  max-width: 100%;
 }
 
 body {
   font-family: var(--font-sans);
   background-color: var(--bg);
   color: var(--text-primary);
-  overflow-x: hidden;
+  overflow-x: clip;
+  max-width: 100%;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -89,7 +103,7 @@ body {
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  background-image: 
+  background-image:
     linear-gradient(rgba(154, 113, 21, 0.015) 1px, transparent 1px),
     linear-gradient(90deg, rgba(154, 113, 21, 0.015) 1px, transparent 1px);
   background-size: 60px 60px;
@@ -138,17 +152,19 @@ h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
 }
 
-/* Custom cursor hide default only if device supports hover */
+/* Keep the standard browser cursor visible across the app on desktop */
 @media (hover: hover) and (pointer: fine) {
   body.custom-cursor-active {
-    cursor: none;
+    cursor: auto !important;
   }
+
+  body.custom-cursor-active *,
   body.custom-cursor-active a,
   body.custom-cursor-active button,
   body.custom-cursor-active input,
   body.custom-cursor-active textarea,
   body.custom-cursor-active [role="button"] {
-    cursor: none;
+    cursor: auto !important;
   }
 }
 
@@ -441,11 +457,16 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-/* Page Section structure */
+/*
+  Page section structure
+  FIX: overflow: clip (instead of hidden) so anchor jumps
+  can't scroll a section's content sideways.
+*/
 section {
   padding: 5rem 0;
   position: relative;
-  overflow: hidden;
+  overflow-x: clip;
+  overflow-y: visible;
   scroll-margin-top: 6rem;
 }
 
