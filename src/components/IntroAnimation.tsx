@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, m, useReducedMotion } from "framer-motion";
 import { useEffect, useState } from "react";
 
 export default function IntroAnimation() {
@@ -10,7 +10,6 @@ export default function IntroAnimation() {
 
   useEffect(() => {
     if (prefersReducedMotion) {
-      setShowIntro(false);
       return;
     }
 
@@ -45,8 +44,8 @@ export default function IntroAnimation() {
 
   return (
     <AnimatePresence mode="wait">
-      {showIntro && (
-        <motion.div
+      {showIntro && !prefersReducedMotion && (
+        <m.div
           key="intro-overlay"
           initial={{ opacity: 1 }}
           animate={{ opacity: 1 }}
@@ -61,7 +60,7 @@ export default function IntroAnimation() {
           aria-live="polite"
           aria-label="Intro animation"
         >
-          <motion.div
+          <m.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: prefersReducedMotion ? 0.2 : 0.5 }}
@@ -70,7 +69,7 @@ export default function IntroAnimation() {
 
           <div className="absolute inset-0 grid place-items-center px-6">
             <div className="relative flex flex-col items-center justify-center">
-              <motion.div
+              <m.div
                 initial={{ opacity: 0, y: -220, scale: 0.75 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 transition={{
@@ -83,7 +82,7 @@ export default function IntroAnimation() {
                 }}
                 className="relative mb-8 sm:mb-10"
               >
-                <motion.div
+                <m.div
                   initial={{ scale: 1, opacity: 1 }}
                   animate={{
                     scale: 1.08,
@@ -98,7 +97,7 @@ export default function IntroAnimation() {
                   }}
                   className="relative flex h-16 w-16 items-center justify-center rounded-full border border-[#d8b15a]/60 bg-gradient-to-br from-[#f9e6b6] via-[#d3a02b] to-[#6b4a0d] shadow-[0_18px_36px_rgba(120,89,12,0.28)] sm:h-20 sm:w-20"
                 >
-                  <motion.div
+                  <m.div
                     initial={{ scale: 1, opacity: 1 }}
                     animate={{ scale: 0.96, opacity: 1 }}
                     transition={{
@@ -113,12 +112,12 @@ export default function IntroAnimation() {
                     <div className="absolute inset-[10%] rounded-full bg-[radial-gradient(circle_at_30%_25%,rgba(255,255,255,0.9),transparent_35%)]" />
                     <div className="absolute -top-2 left-3 h-3 w-7 rounded-full bg-white/50 blur-sm" />
                     <div className="absolute inset-0 rounded-full shadow-[inset_-8px_-10px_18px_rgba(88,59,9,0.2)]" />
-                  </motion.div>
-                </motion.div>
-              </motion.div>
+                  </m.div>
+                </m.div>
+              </m.div>
 
               <div className="relative flex flex-col items-center justify-center text-center">
-                <motion.p
+                <m.p
                   variants={textVariants}
                   initial="hidden"
                   animate="visible"
@@ -132,9 +131,9 @@ export default function IntroAnimation() {
                   }}
                 >
                   WELCOME
-                </motion.p>
+                </m.p>
 
-                <motion.h1
+                <m.h1
                   variants={textVariants}
                   initial="hidden"
                   animate="visible"
@@ -148,9 +147,9 @@ export default function IntroAnimation() {
                   }}
                 >
                   Hi, I&apos;m Swathi D
-                </motion.h1>
+                </m.h1>
 
-                <motion.p
+                <m.p
                   variants={textVariants}
                   initial="hidden"
                   animate="visible"
@@ -164,11 +163,11 @@ export default function IntroAnimation() {
                   }}
                 >
                   FRONTEND DEVELOPER
-                </motion.p>
+                </m.p>
               </div>
             </div>
           </div>
-        </motion.div>
+        </m.div>
       )}
     </AnimatePresence>
   );

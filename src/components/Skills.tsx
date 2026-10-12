@@ -1,5 +1,3 @@
-"use client";
-
 import {
   SiHtml5,
   SiCss,

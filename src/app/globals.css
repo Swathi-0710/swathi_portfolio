@@ -1,11 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=DM+Mono:wght@300;400;500&family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700;800;900&family=Sora:wght@300;400;500;600;700;800&display=swap');
 @import "tailwindcss";
 
 @theme {
   --color-mustard: #B8860B;
   --color-secondary: #111111;
   --color-cream: #FFFDF9;
-  --font-display: "Poppins", "Sora", "sans-serif";
+  --font-display: var(--font-outfit), sans-serif;
 }
 
 @layer base {
@@ -31,9 +30,9 @@
   --accent: #B88A1A;
   --white: #FFFDF7;
 
-  --font-sans: 'Inter', sans-serif;
-  --font-display: 'Outfit', sans-serif;
-  --font-mono: 'DM Mono', monospace;
+  --font-sans: var(--font-inter), sans-serif;
+  --font-display: var(--font-outfit), sans-serif;
+  --font-mono: var(--font-dm-mono), monospace;
 
   --radius-sm: 8px;
   --radius-md: 12px;
@@ -189,6 +188,51 @@ h1, h2, h3, h4, h5, h6 {
   margin: 0 auto;
   padding: 0 1.5rem;
   width: 100%;
+}
+
+html {
+  scrollbar-width: none;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;
+}
+
+.page-single-scroll {
+  position: relative;
+  width: 100%;
+  background: transparent;
+  padding-top: 0;
+  margin-top: 0;
+  overflow-x: clip;
+}
+
+.page-slide-section {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  overflow: clip;
+  z-index: 1;
+  margin: 0;
+  scroll-snap-align: start;
+}
+
+.page-slide-section > * {
+  width: 100%;
+  min-height: 100vh;
+}
+
+.page-slide-section > #home {
+  align-items: flex-start;
+  padding: 2rem 0 3rem;
+}
+
+.page-slide-section + .page-slide-section {
+  margin-top: 0;
 }
 
 .projects-section {

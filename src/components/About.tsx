@@ -1,6 +1,7 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
+import Image from "next/image";
+import { AnimatePresence, m } from "framer-motion";
 import { useEffect, useState } from "react";
 
 export default function About() {
@@ -44,7 +45,7 @@ export default function About() {
             alignItems: "center",
           }}
         >
-          <motion.div
+          <m.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
@@ -54,21 +55,27 @@ export default function About() {
               <div className="about-visual-sheen" aria-hidden="true" />
 
               <AnimatePresence mode="wait">
-                <motion.img
+                <m.div
                   key={aboutImages[activeImage].src}
-                  src={aboutImages[activeImage].src}
-                  alt={aboutImages[activeImage].alt}
                   initial={{ opacity: 0, scale: 1.04 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.96 }}
                   transition={{ duration: 0.7, ease: "easeOut" }}
-                  className="about-carousel-image"
-                />
+                  className="about-carousel-image-wrapper"
+                >
+                  <Image
+                    src={aboutImages[activeImage].src}
+                    alt={aboutImages[activeImage].alt}
+                    fill
+                    sizes="(max-width: 992px) calc(100vw - 3rem), 760px"
+                    className="about-carousel-image"
+                  />
+                </m.div>
               </AnimatePresence>
 
               <div className="about-carousel-dots" aria-label="About image indicator">
                 {aboutImages.map((image, index) => (
-                  <motion.span
+                  <m.span
                     key={image.src}
                     className={`about-carousel-dot ${activeImage === index ? "is-active" : ""}`}
                     animate={{
@@ -80,7 +87,7 @@ export default function About() {
                 ))}
               </div>
             </div>
-          </motion.div>
+          </m.div>
 
           <div className="about-content" style={{ paddingLeft: "0.5rem" }}>
             <h3
@@ -91,8 +98,8 @@ export default function About() {
                 marginBottom: "1.25rem",
               }}
             >
-              Frontend Developer passionate about building modern digital
-              experiences.
+              Frontend & Mobile Developer passionate about building modern
+              digital experiences.
             </h3>
 
             <p
@@ -103,11 +110,11 @@ export default function About() {
                 marginBottom: "1.5rem",
               }}
             >
-              Frontend Developer with{" "}
+              Frontend & Mobile Developer with{" "}
               <strong style={{ color: "#B8860B" }}>2+ years of experience</strong>{" "}
-              in <strong>React.js, Next.js, JavaScript</strong>, and{" "}
-              <strong>TypeScript</strong>. Familiar with{" "}
-              <strong>Node.js</strong> and skilled in{" "}
+              in <strong>React.js, Next.js, JavaScript</strong>,{" "}
+              <strong>TypeScript</strong>, and <strong>Flutter</strong>. Familiar
+              with <strong>Node.js</strong> and skilled in{" "}
               <strong>Figma, responsive UI development</strong>, and{" "}
               <strong>smooth animations</strong> to create engaging user
               experiences.
@@ -156,12 +163,13 @@ export default function About() {
         }
 
         .about-carousel-image {
-          position: absolute;
-          inset: 0;
-          width: 100%;
-          height: 100%;
           object-fit: contain;
           filter: drop-shadow(0 18px 20px rgba(93, 64, 12, 0.12));
+        }
+
+        .about-carousel-image-wrapper {
+          position: absolute;
+          inset: 0;
         }
 
         .about-carousel-dots {

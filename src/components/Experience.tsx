@@ -1,5 +1,3 @@
-"use client";
-
 import {
   Calendar,
   Briefcase,
@@ -8,8 +6,6 @@ import {
   Cable,
   Bug,
   Gauge,
-  BarChart3,
-  Box,
   FileCode2,
   Zap,
   AirVent,
@@ -110,7 +106,7 @@ export default function Experience() {
                     }}
                   />
 
-                  Frontend Developer
+                  Frontend & Mobile Developer
                 </span>
 
                 <span

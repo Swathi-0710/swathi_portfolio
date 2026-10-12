@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { m, useReducedMotion } from "framer-motion";
 import {
   ArrowRight,
   Download,
@@ -8,10 +8,6 @@ import {
   Briefcase,
 } from "lucide-react";
 
-import { Canvas, useFrame } from "@react-three/fiber";
-import { Float, Html, OrbitControls } from "@react-three/drei";
-import * as THREE from "three";
-import { ReactNode, useRef, useEffect, useState } from "react";
 import { SiExpress, SiJavascript, SiTypescript } from "react-icons/si";
 
 
@@ -170,37 +166,6 @@ const MongoDbIcon = ({
 );
 
 
-const ReduxIcon = ({
-  className = "w-7 h-7",
-}: {
-  className?: string;
-}) => (
-  <svg
-    className={className}
-    viewBox="0 0 24 24"
-    fill="currentColor"
-  >
-    <path d="M7.83 14.85l-.54.31v-2.31l3.52 2.03v.38c-.02.43-.27.81-.66 1.01l-1.66.96a1.23 1.23 0 0 1-1.22 0l-1.66-.96c-.39-.2-.64-.59-.66-1.02v-3.79c.02-.43.27-.81.66-1.01l1.66-.96c.19-.11.4-.16.61-.16s.42.05.61.16l.54-.31a1.23 1.23 0 0 1-1.22 0l-2.2-.93a1.23 1.23 0 0 0-1.22 0l-4.52 2.61c-.39.23-.64.63-.66 1.08v5.22c.02.45.27.85.66 1.08l4.52 2.61c.19.11.41.17.61.17s.42-.06.61-.17l4.52-2.61c.39-.23.64-.63.66-1.08v-2.73l-3.52-2.03zm8.34-5.7l.54-.31v2.31l-3.52-2.03v-.38c-.02-.43-.27-.81-.66-1.01l-1.66-.96a1.23 1.23 0 0 0-1.22 0l-1.66.96c-.39.2-.64.59-.66 1.02v3.79c.02.43.27.81.66 1.01l1.66.96c.19.11.4.16.61.16s.42-.05.61-.16l.54.31a1.23 1.23 0 0 1-1.22 0l-2.2.93a1.23 1.23 0 0 1-1.22 0l-4.52-2.61c-.39-.23-.64-.63-.66-1.08V8.92c.02-.45.27-.85.66-1.08l4.52-2.61a1.23 1.23 0 0 1 1.22 0l4.52 2.61c.39.23.64.63.66 1.08v2.73l-3.52 2.03zm-4.17.51l3.52-2.03l3.52 2.03v4.06l-3.52 2.03l-3.52-2.03V9.66z" />
-  </svg>
-);
-
-
-const FlutterIcon = ({
-  className = "w-7 h-7",
-}: {
-  className?: string;
-}) => (
-  <svg
-    className={className}
-    viewBox="0 0 24 24"
-    fill="currentColor"
-  >
-    <path d="M14.314 0L2.3 12 6 15.7 21.684 0h-7.37zM14.35 11.23L9.61 15.97l4.74 4.74h7.35l-8.35-8.35v-.13z" />
-  </svg>
-);
-
-
-// ============================================================
 // BACKGROUND
 // ============================================================
 
@@ -213,92 +178,6 @@ const HeroLandscape = () => (
   />
 );
 
-
-// ============================================================
-// 3D TECHNOLOGY DATA
-// ============================================================
-
-const technologyItems: {
-  name: string;
-  icon: ReactNode;
-  color: string;
-  position: [number, number, number];
-}[] = [
-  {
-    name: "React.js",
-    icon: <ReactIcon />,
-    color: "#149eca",
-    position: [0, 2.35, 0.2],
-  },
-  {
-    name: "Next.js",
-    icon: <NextjsIcon />,
-    color: "#111111",
-    position: [1.85, 1.35, 0.5],
-  },
-  {
-    name: "TypeScript",
-    icon: <SiTypescript />,
-    color: "#3178c6",
-    position: [2.25, -0.65, 0.2],
-  },
-  {
-    name: "JavaScript",
-    icon: <SiJavascript />,
-    color: "#9a720d",
-    position: [1.25, -2.05, 0.4],
-  },
-  {
-    name: "Node.js",
-    icon: <NodejsIcon />,
-    color: "#5c8f29",
-    position: [-0.8, -2.25, 0.3],
-  },
-  {
-    name: "Express.js",
-    icon: <SiExpress />,
-    color: "#333333",
-    position: [-2.15, -1.05, 0.4],
-  },
-  {
-    name: "MongoDB",
-    icon: <MongoDbIcon />,
-    color: "#4f8e3b",
-    position: [-2.05, 0.75, 0.3],
-  },
-  {
-    name: "HTML5",
-    icon: (
-      <span className="text-[25px] font-black">
-        5
-      </span>
-    ),
-    color: "#e34f26",
-    position: [-1.25, 2.15, 0.1],
-  },
-  {
-    name: "CSS3",
-    icon: (
-      <span className="text-[24px] font-black">
-        #
-      </span>
-    ),
-    color: "#1572b6",
-    position: [1.15, 2.65, -0.2],
-  },
-  {
-    name: "Redux",
-    icon: <ReduxIcon />,
-    color: "#764abc",
-    position: [-2.65, 0.0, -0.3],
-  },
-  {
-    name: "Flutter",
-    icon: <FlutterIcon />,
-    color: "#0277bd",
-    position: [2.65, 0.25, -0.3],
-  },
-];
 
 const orbitOuterItems = [
   { name: "React.js", icon: <ReactIcon />, tone: "react" },
@@ -319,368 +198,6 @@ const orbitInnerItems = [
 ];
 
 
-// ============================================================
-// 3D GLOBE
-// ============================================================
-
-function Globe() {
-  const globeRef = useRef<THREE.Group>(null);
-
-  useFrame((_, delta) => {
-    if (!globeRef.current) return;
-
-    globeRef.current.rotation.y += delta * 0.12;
-  });
-
-  return (
-    <group ref={globeRef}>
-
-      {/* Main gold globe */}
-      <mesh>
-        <sphereGeometry args={[1.45, 64, 64]} />
-
-        <meshPhysicalMaterial
-          color="#9b7015"
-          metalness={0.8}
-          roughness={0.28}
-          clearcoat={1}
-          clearcoatRoughness={0.15}
-          emissive="#6d4c0a"
-          emissiveIntensity={0.12}
-        />
-      </mesh>
-
-
-      {/* Wireframe globe */}
-      <mesh scale={1.006}>
-        <sphereGeometry args={[1.45, 32, 20]} />
-
-        <meshBasicMaterial
-          color="#f3d58a"
-          wireframe
-          transparent
-          opacity={0.25}
-        />
-      </mesh>
-
-
-      {/* Outer glow */}
-      <mesh scale={1.08}>
-        <sphereGeometry args={[1.45, 32, 32]} />
-
-        <meshBasicMaterial
-          color="#d8a92e"
-          transparent
-          opacity={0.055}
-          side={THREE.BackSide}
-        />
-      </mesh>
-
-    </group>
-  );
-}
-
-
-// ============================================================
-// ORBIT RING
-// ============================================================
-
-function OrbitRing({
-  rotation,
-  scale = 1,
-  speed = 0.08,
-}: {
-  rotation: [number, number, number];
-  scale?: number;
-  speed?: number;
-}) {
-  const ringRef = useRef<THREE.Mesh>(null);
-
-  useFrame((_, delta) => {
-    if (!ringRef.current) return;
-
-    ringRef.current.rotation.z += delta * speed;
-  });
-
-  return (
-    <mesh
-      ref={ringRef}
-      rotation={rotation}
-      scale={scale}
-    >
-      <torusGeometry
-        args={[2.18, 0.012, 16, 160]}
-      />
-
-      <meshBasicMaterial
-        color="#b8860b"
-        transparent
-        opacity={0.6}
-      />
-    </mesh>
-  );
-}
-
-
-// ============================================================
-// TECHNOLOGY BADGE
-// ============================================================
-
-function TechnologyBadge({
-  name,
-  icon,
-  color,
-  position,
-}: {
-  name: string;
-  icon: ReactNode;
-  color: string;
-  position: [number, number, number];
-}) {
-  return (
-    <Float
-      speed={1.4}
-      rotationIntensity={0.08}
-      floatIntensity={0.25}
-    >
-
-      <group position={position}>
-
-        <Html
-          center
-          distanceFactor={6}
-          transform
-          sprite
-        >
-
-          <div
-            className="tech-node"
-            style={{
-              color,
-              ["--tech-color" as string]: color,
-            }}
-          >
-
-            <div className="tech-node-icon">
-              {icon}
-            </div>
-
-            <div className="tech-node-name">
-              {name}
-            </div>
-
-          </div>
-
-        </Html>
-
-      </group>
-
-    </Float>
-  );
-}
-
-
-// ============================================================
-// PARTICLE
-// ============================================================
-
-function GoldParticle({
-  position,
-  size = 0.035,
-}: {
-  position: [number, number, number];
-  size?: number;
-}) {
-  return (
-    <mesh position={position}>
-
-      <sphereGeometry
-        args={[size, 16, 16]}
-      />
-
-      <meshBasicMaterial
-        color="#d5a52d"
-      />
-
-    </mesh>
-  );
-}
-
-
-// ============================================================
-// PARTICLES
-// ============================================================
-
-function Particles() {
-  const particles: [number, number, number][] = [
-    [-3.1, 2.2, -0.5],
-    [3.0, 1.9, -0.3],
-    [-3.0, -1.7, -0.4],
-    [3.1, -1.5, -0.2],
-    [0.2, 3.2, -0.4],
-    [0.4, -3.2, -0.4],
-    [-2.5, 2.7, -0.5],
-    [2.5, 2.7, -0.5],
-    [-2.8, -2.5, -0.5],
-    [2.8, -2.5, -0.5],
-  ];
-
-  return (
-    <>
-      {particles.map((position, index) => (
-        <GoldParticle
-          key={index}
-          position={position}
-          size={index % 3 === 0 ? 0.055 : 0.03}
-        />
-      ))}
-    </>
-  );
-}
-
-
-// ============================================================
-// MAIN 3D SCENE
-// ============================================================
-
-function TechnologyScene() {
-  const sceneRef = useRef<THREE.Group>(null);
-
-  useFrame((state) => {
-    if (!sceneRef.current) return;
-
-    const mouseX = state.pointer.x;
-    const mouseY = state.pointer.y;
-
-    sceneRef.current.rotation.y +=
-      (mouseX * 0.15 - sceneRef.current.rotation.y) *
-      0.025;
-
-    sceneRef.current.rotation.x +=
-      (-mouseY * 0.08 - sceneRef.current.rotation.x) *
-      0.025;
-  });
-
-  return (
-    <group ref={sceneRef}>
-
-      {/* Lighting */}
-
-      <ambientLight intensity={1.8} />
-
-      <pointLight
-        position={[4, 4, 5]}
-        intensity={25}
-        color="#d6a72c"
-      />
-
-      <pointLight
-        position={[-4, -2, 4]}
-        intensity={12}
-        color="#fff4d5"
-      />
-
-
-      {/* Globe */}
-
-      <Globe />
-
-
-      {/* Three orbital rings */}
-
-      <OrbitRing
-        rotation={[Math.PI / 3, 0.25, 0]}
-        speed={0.08}
-      />
-
-      <OrbitRing
-        rotation={[Math.PI / 2.35, 0, 0.8]}
-        scale={0.9}
-        speed={-0.055}
-      />
-
-      <OrbitRing
-        rotation={[0.45, Math.PI / 2, 0]}
-        scale={0.96}
-        speed={0.065}
-      />
-
-
-      {/* Center code */}
-
-      <Html
-        center
-        distanceFactor={6}
-        sprite
-      >
-        <div className="globe-center-code">
-          {"</>"}
-        </div>
-      </Html>
-
-
-      {/* Technology badges */}
-
-      {technologyItems.map((tech) => (
-        <TechnologyBadge
-          key={tech.name}
-          name={tech.name}
-          icon={tech.icon}
-          color={tech.color}
-          position={tech.position}
-        />
-      ))}
-
-
-      {/* Gold particles */}
-
-      <Particles />
-
-    </group>
-  );
-}
-
-
-// ============================================================
-// THREE.JS CANVAS
-// ============================================================
-
-// function TechnologyGlobe() {
-//   return (
-//     <div className="technology-globe">
-
-//       <Canvas
-//         camera={{
-//           position: [0, 0, 8],
-//           fov: 42,
-//         }}
-//         dpr={prefersReducedMotion ? [1, 1] : [1, 1.5]}
-//         gl={{
-//           antialias: !prefersReducedMotion,
-//           alpha: true,
-//           powerPreference: "high-performance",
-//         }}
-//         performance={{
-//           min: 0.5,
-//         }}
-//       >
-
-//         <TechnologyScene />
-
-//         <OrbitControls
-//           enableZoom={false}
-//           enablePan={false}
-//           enableRotate={false}
-//         />
-
-//       </Canvas>
-
-//     </div>
-//   );
-// }
-
-
-// ============================================================
 // HERO COMPONENT
 // ============================================================
 
@@ -714,11 +231,6 @@ export default function Hero() {
   // ==========================================================
 
   const prefersReducedMotion = useReducedMotion();
-  const [isClientReady, setIsClientReady] = useState(false);
-
-  useEffect(() => {
-    setIsClientReady(true);
-  }, []);
 
   const containerVariants = {
     hidden: {
@@ -760,7 +272,7 @@ export default function Hero() {
 
   return (
     <section
-      className="relative  bg-white text-secondary flex items-center pt-24 pb-12 overflow-hidden"
+      className="relative  bg-white text-secondary flex items-center pt-8 pb-12 overflow-hidden"
       id="home"
     >
 
@@ -793,16 +305,16 @@ export default function Hero() {
               LEFT CONTENT
           ================================================== */}
 
-          <motion.div
+          <m.div
             variants={containerVariants}
-            initial={isClientReady ? "hidden" : false}
-            animate={isClientReady ? "visible" : false}
+            initial={false}
+            animate="visible"
             className="lg:col-span-7 flex flex-col items-start gap-5 text-left relative z-20"
           >
 
             {/* Experience Badge */}
 
-            <motion.div
+            <m.div
               variants={itemVariants}
               className="flex flex-wrap gap-2.5 items-center"
             >
@@ -819,12 +331,12 @@ export default function Hero() {
 
               </span>
 
-            </motion.div>
+            </m.div>
 
 
             {/* Name */}
 
-            <motion.h1
+            <m.h1
               variants={itemVariants}
               className="text-4xl md:text-4xl lg:text-5xl font-extrabold tracking-tight font-display leading-[1.05]"
             >
@@ -843,34 +355,34 @@ export default function Hero() {
                 D
               </span>
 
-            </motion.h1>
+            </m.h1>
 
 
             {/* Job Title */}
 
-            <motion.h2
+            <m.h2
               variants={itemVariants}
               className="text-2xl md:text-xl font-bold text-[#B8860B] font-display tracking-wide"
             >
-              Front-End Developer
-            </motion.h2>
+              Frontend & Mobile Developer
+            </m.h2>
 
 
             {/* Description */}
 
-            <motion.p
+            <m.p
               variants={itemVariants}
               className="text-base md:text-lg text-gray-700 leading-relaxed font-sans max-w-xl"
             >
 
-              Building scalable, responsive, and high-performance web
-              applications with{" "}
+              Building scalable, responsive, and high-performance web and mobile
+              experiences with{" "}
 
               <span className="text-[#B8860B] font-semibold">
-                React.js, Next.js, TypeScript
+                React.js, Next.js, TypeScript, and Flutter
               </span>
 
-              ,{" "}
+              , backed by{" "}
 
               <span className="text-gray-800 font-medium">
                 Node.js, Express.js, and MongoDB
@@ -885,19 +397,19 @@ export default function Hero() {
               , reusable components, and efficient,
               production-ready solutions.
 
-            </motion.p>
+            </m.p>
 
 
             {/* Buttons */}
 
-            <motion.div
+            <m.div
               variants={itemVariants}
               className="flex flex-wrap items-center gap-4"
             >
 
               {/* View Projects */}
 
-              <motion.a
+              <m.a
                 href="#projects"
                 whileHover={{
                   scale: 1.02,
@@ -914,12 +426,12 @@ export default function Hero() {
 
                 <ArrowRight className="h-4 w-4" />
 
-              </motion.a>
+              </m.a>
 
 
               {/* Download Resume */}
 
-      <motion.a
+      <m.a
   href="/Swathi_Developer.pdf"
   download="Swathi_Developer.pdf"
   whileHover={{ scale: 1.02 }}
@@ -928,14 +440,14 @@ export default function Hero() {
 >
   <span>Download Resume</span>
   <Download className="h-4 w-4 shrink-0" />
-</motion.a>
+</m.a>
 
-            </motion.div>
+            </m.div>
 
 
             {/* Social Links */}
 
-            <motion.div
+            <m.div
               variants={itemVariants}
               className="flex items-center gap-3.5"
             >
@@ -944,7 +456,7 @@ export default function Hero() {
 
                 {socialLinks.map((social) => (
 
-                  <motion.a
+                  <m.a
                     key={social.label}
                     href={social.href}
                     target={
@@ -970,32 +482,28 @@ export default function Hero() {
 
                     {social.icon}
 
-                  </motion.a>
+                  </m.a>
 
                 ))}
 
               </div>
 
-            </motion.div>
+            </m.div>
 
-          </motion.div>
+          </m.div>
 
 
           {/* ==================================================
               RIGHT — TECH STACK ORBIT
           ================================================== */}
 
-          <motion.div
-            initial={isClientReady ? {
-              opacity: 0,
-              scale: 0.88,
-              x: 30,
-            } : false}
-            animate={isClientReady ? {
+          <m.div
+            initial={false}
+            animate={{
               opacity: 1,
               scale: 1,
               x: 0,
-            } : false}
+            }}
             transition={{
               duration: prefersReducedMotion ? 0.3 : 1,
               ease: "easeOut",
@@ -1063,7 +571,7 @@ export default function Hero() {
                 ))}
               </div>
             </div>
-          </motion.div>
+          </m.div>
 
         </div>
 
@@ -1233,301 +741,7 @@ export default function Hero() {
           }
         }
 
-        /* ====================================================
-           THREE.JS GLOBE CONTAINER
-        ==================================================== */
-
-        .technology-globe {
-          position: relative;
-
-          width: 100%;
-          height: 580px;
-
-          max-width: 650px;
-
-          margin-left: auto;
-
-          overflow: visible;
-        }
-
-
-        /* ====================================================
-           SOFT GOLD LIGHT
-        ==================================================== */
-
-        .technology-globe::before {
-          content: "";
-
-          position: absolute;
-
-          width: 430px;
-          height: 430px;
-
-          left: 50%;
-          top: 50%;
-
-          transform:
-            translate(-50%, -50%);
-
-          border-radius: 50%;
-
-          background:
-            radial-gradient(
-              circle,
-              rgba(184, 134, 11, 0.17) 0%,
-              rgba(184, 134, 11, 0.08) 35%,
-              transparent 70%
-            );
-
-          filter: blur(30px);
-
-          pointer-events: none;
-        }
-
-
-        /* ====================================================
-           CENTER CODE
-        ==================================================== */
-
-        .globe-center-code {
-          width: 78px;
-          height: 78px;
-
-          display: flex;
-
-          align-items: center;
-          justify-content: center;
-
-          border-radius: 50%;
-
-          background:
-            radial-gradient(
-              circle at 32% 25%,
-              #d6aa35,
-              #9a7115 58%,
-              #513604
-            );
-
-          border:
-            2px solid
-            rgba(255, 226, 153, 0.75);
-
-          color: white;
-
-          font-size: 22px;
-
-          font-weight: 900;
-
-          box-shadow:
-            0 0 0 7px
-              rgba(184, 134, 11, 0.08),
-            0 0 35px
-              rgba(184, 134, 11, 0.35),
-            0 12px 35px
-              rgba(92, 58, 8, 0.28);
-
-          text-shadow:
-            0 2px 4px
-              rgba(0, 0, 0, 0.35);
-
-          user-select: none;
-
-          pointer-events: none;
-        }
-
-
-        /* ====================================================
-           TECHNOLOGY NODE
-        ==================================================== */
-
-        .tech-node {
-          width: 82px;
-          height: 82px;
-
-          display: flex;
-
-          flex-direction: column;
-
-          align-items: center;
-          justify-content: center;
-
-          gap: 4px;
-
-          border-radius: 50%;
-
-          background:
-            rgba(255, 253, 249, 0.96);
-
-          border:
-            1px solid
-            rgba(184, 134, 11, 0.28);
-
-          box-shadow:
-            0 8px 25px
-              rgba(92, 58, 8, 0.12),
-
-            0 0 0 5px
-              rgba(184, 134, 11, 0.035);
-
-          backdrop-filter:
-            blur(10px);
-
-          -webkit-backdrop-filter:
-            blur(10px);
-
-          transition:
-            transform 0.3s ease,
-            box-shadow 0.3s ease;
-
-          user-select: none;
-
-          pointer-events: auto;
-
-          cursor: default;
-        }
-
-
-        .tech-node:hover {
-          transform: scale(1.12);
-
-          box-shadow:
-            0 15px 40px
-              rgba(92, 58, 8, 0.18),
-
-            0 0 25px
-              rgba(184, 134, 11, 0.2);
-        }
-
-
-        /* ====================================================
-           TECHNOLOGY ICON
-        ==================================================== */
-
-        .tech-node-icon {
-          width: 35px;
-          height: 35px;
-
-          display: flex;
-
-          align-items: center;
-          justify-content: center;
-
-          color: var(--tech-color);
-
-          font-weight: 900;
-        }
-
-
-        /* ====================================================
-           TECHNOLOGY NAME
-        ==================================================== */
-
-        .tech-node-name {
-          color: #33280f;
-
-          font-size: 8px;
-
-          font-weight: 800;
-
-          line-height: 1;
-
-          white-space: nowrap;
-
-          letter-spacing: -0.1px;
-        }
-
-
-        /* ====================================================
-           TABLET
-        ==================================================== */
-
-        @media (max-width: 1100px) {
-
-          .technology-globe {
-            height: 520px;
-
-            max-width: 570px;
-          }
-
-        }
-
-
-        /* ====================================================
-           MOBILE
-        ==================================================== */
-
-        @media (max-width: 1024px) {
-
-          .technology-globe {
-            height: 500px;
-
-            max-width: 560px;
-
-            margin-left: 0;
-          }
-
-        }
-
-
-        @media (max-width: 640px) {
-
-          .technology-globe {
-            height: 440px;
-
-            max-width: 440px;
-
-            margin-top: 10px;
-          }
-
-
-          .tech-node {
-            width: 62px;
-            height: 62px;
-
-            gap: 2px;
-          }
-
-
-          .tech-node-icon {
-            width: 25px;
-            height: 25px;
-          }
-
-
-          .tech-node-name {
-            font-size: 6px;
-          }
-
-
-          .globe-center-code {
-            width: 58px;
-            height: 58px;
-
-            font-size: 17px;
-          }
-
-
-          .technology-globe::before {
-            width: 300px;
-            height: 300px;
-          }
-
-        }
-
-
-        /* ====================================================
-           REDUCED MOTION
-        ==================================================== */
-
-        @media (prefers-reduced-motion: reduce) {
-
-          .tech-node {
-            transition: none;
-          }
-
-        }
-
-      `}</style>
+              `}</style>
 
     </section>
   );

@@ -1,11 +1,10 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 export default function CustomCursor() {
   const dotRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     const hasFinePointer = typeof window !== "undefined"
@@ -13,12 +12,10 @@ export default function CustomCursor() {
       : false;
 
     if (!hasFinePointer) {
-      setIsVisible(false);
       document.body.classList.remove("custom-cursor-active");
       return;
     }
 
-    setIsVisible(true);
     document.body.classList.add("custom-cursor-active");
 
     const mouse = { x: -100, y: -100 };
@@ -114,8 +111,6 @@ export default function CustomCursor() {
       document.body.classList.remove("custom-cursor-active");
     };
   }, []);
-
-  if (!isVisible) return null;
 
   return (
     <>

@@ -1,6 +1,3 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import { ArrowUpRight, ExternalLink } from "lucide-react";
 
 const GithubIcon = ({ size = 15 }: { size?: number }) => (
@@ -26,21 +23,9 @@ interface ProjectItem {
   tags: string[];
   liveUrl: string;
   gitUrl?: string;
-  imageSequence?: string[];
 }
 
 export default function Projects() {
-  const [activeImageIndex, setActiveImageIndex] = useState(0);
-  const [failedImages, setFailedImages] = useState<Record<string, boolean>>({});
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveImageIndex((prev) => (prev + 1) % 3);
-    }, 1800);
-
-    return () => clearInterval(interval);
-  }, []);
-
   const projectsData: ProjectItem[] = [
     {
       num: "01",
@@ -50,7 +35,6 @@ export default function Projects() {
       tags: ["FIGMA", "UI/UX", "CRYPTO"],
       liveUrl:
         "https://www.figma.com/design/WwJVvctqTQhNWMAtWfzPgF/Crypto-Research-Dashboard?node-id=0-1&p=f&t=dfnls6lcwtYVqYRtDl-0",
-      imageSequence: ["/crypto.png", "/crypto-2.png", "/crypto-3.png"],
     },
 {
   num: "02",
@@ -60,7 +44,6 @@ export default function Projects() {
   tags: ["REACT.JS", "MATERIAL UI", "CSS"],
   liveUrl: "https://elearnerhub.netlify.app/",
   gitUrl: "https://github.com/Swathi-0710/E-Learning-Website",
-  imageSequence: ["/design-1.png", "/e-learn.png"],
 },
     {
       num: "03",
@@ -70,7 +53,6 @@ export default function Projects() {
       tags: ["NEXT JS","TAILWIND CSS", "JWT AUTHENDICATION", "NODE JS","EXPRESS JS","MONGO DB"],
       liveUrl: "https://todo-frontend-gamma-ten.vercel.app/login",
       gitUrl: "https://github.com/Swathi-0710/todo-frontend",
-      imageSequence: ["/todo.png"],
     },
   ];
 
@@ -81,42 +63,14 @@ export default function Projects() {
         <div className="projects-heading">
           <p className="projects-kicker">Selected Work</p>
           <h5 className="mb-10 text-[35px] font-bold !bg-gradient-to-b !from-[#B8860B] !via-[#7A5A08] !to-[#17130A] !bg-clip-text !text-transparent">
-            Project I've Built
+            Project I&apos;ve Built
           </h5>
         </div>
 
         <div className="projects-grid">
           {projectsData.map((project) => {
-            const isCrypto = project.num === "01";
-            const currentImage = isCrypto
-              ? project.imageSequence?.[activeImageIndex]
-              : project.imageSequence?.[0];
-            const showPlaceholder = !currentImage || failedImages[project.num];
-
             return (
               <article key={project.num} className="project-card">
-                {/* <div className="project-preview">
-                  {!showPlaceholder ? (
-                    <img
-                      src={currentImage}
-                      alt={`${project.title} preview`}
-                      className="project-thumb"
-                      onError={() =>
-                        setFailedImages((prev) => ({
-                          ...prev,
-                          [project.num]: true,
-                        }))
-                      }
-                    />
-                  ) : (
-                    <div className="project-thumb project-thumb--placeholder">
-                      <span>Project Preview</span>
-                    </div>
-                  )}
-
-                  <div className="project-number">{project.num}</div>
-                </div> */}
-
                 <div className="project-body">
                   <div className="project-header">
                    <h3
